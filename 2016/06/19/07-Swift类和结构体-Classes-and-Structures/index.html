@@ -1,0 +1,793 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x2003;&amp;#x7C7B;&amp;#x548C;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x662F;&amp;#x6784;&amp;#x5EFA;&amp;#x4EE3;&amp;#x7801;&amp;#x6240;&amp;#x7528;&amp;#x7684;&amp;#x4E00;&amp;#x79CD;&amp;#x901A;&amp;#x7528;&amp;#x7684;&amp;#x6784;&amp;#x9020;&amp;#x4F53;&amp;#x3002;&amp;#x90FD;&amp;#x662F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="07-类和结构体(Classes and Structures)">
+<meta property="og:url" content="http://jarvan3.com/2016/06/19/07-Swift类和结构体-Classes-and-Structures/index.html">
+<meta property="og:site_name" content="EndEvent">
+<meta property="og:description" content="&amp;#x2003;&amp;#x7C7B;&amp;#x548C;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x662F;&amp;#x6784;&amp;#x5EFA;&amp;#x4EE3;&amp;#x7801;&amp;#x6240;&amp;#x7528;&amp;#x7684;&amp;#x4E00;&amp;#x79CD;&amp;#x901A;&amp;#x7528;&amp;#x7684;&amp;#x6784;&amp;#x9020;&amp;#x4F53;&amp;#x3002;&amp;#x90FD;&amp;#x662F;">
+<meta property="og:updated_time" content="2016-06-19T01:52:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="07-类和结构体(Classes and Structures)">
+<meta name="twitter:description" content="&amp;#x2003;&amp;#x7C7B;&amp;#x548C;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x662F;&amp;#x6784;&amp;#x5EFA;&amp;#x4EE3;&amp;#x7801;&amp;#x6240;&amp;#x7528;&amp;#x7684;&amp;#x4E00;&amp;#x79CD;&amp;#x901A;&amp;#x7528;&amp;#x7684;&amp;#x6784;&amp;#x9020;&amp;#x4F53;&amp;#x3002;&amp;#x90FD;&amp;#x662F;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6296650805936129000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://jarvan3.com/2016/06/19/07-Swift类和结构体-Classes-and-Structures/"/>
+
+  <title> 07-类和结构体(Classes and Structures) | EndEvent </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2dcf77ca7e928ec83b9e3c1bc6a0b9f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EndEvent</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                07-类和结构体(Classes and Structures)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-19T09:49:21+08:00" content="2016-06-19">
+              2016-06-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/19/07-Swift类和结构体-Classes-and-Structures/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/19/07-Swift类和结构体-Classes-and-Structures/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/06/19/07-Swift类和结构体-Classes-and-Structures/" class="leancloud_visitors" data-flag-title="07-类和结构体(Classes and Structures)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x2003;<em>&#x7C7B;</em>&#x548C;<em>&#x7ED3;&#x6784;&#x4F53;</em>&#x662F;&#x6784;&#x5EFA;&#x4EE3;&#x7801;&#x6240;&#x7528;&#x7684;&#x4E00;&#x79CD;&#x901A;&#x7528;&#x7684;&#x6784;&#x9020;&#x4F53;&#x3002;&#x90FD;&#x662F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5B8C;&#x5168;&#x76F8;&#x540C;&#x7684;&#x8BED;&#x6CD5;&#x89C4;&#x5219;&#x4E3A;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x5B9A;&#x4E49;&#x5C5E;&#x6027;(&#x5E38;&#x91CF;&#x3001;&#x53D8;&#x91CF;)&#x3001;&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;&#xFF0C;&#x4ECE;&#x800C;&#x6269;&#x5C55;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x529F;&#x80FD;&#x3002;<br><a id="more"></a></p>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x901A;&#x5E38;&#x4E00;&#x4E2A;<code>&#x7C7B;</code>&#x7684;&#x5B9E;&#x4F8B;&#x79F0;&#x4E4B;&#x4E3A;<code>&#x5BF9;&#x8C61;</code>&#x3002;&#x4F46;&#x5728;swift&#x4E2D;&#xFF0C;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5173;&#x7CFB;&#x8981;&#x6BD4;&#x5728;&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x4E2D;&#x66F4;&#x52A0;&#x7684;&#x5BC6;&#x5207;&#x3002;&#x4E3A;&#x6B64;&#xFF0C;&#x66F4;&#x591A;&#x662F;&#x4F7F;&#x7528;<code>&#x5B9E;&#x4F8B;</code>&#x800C;&#x4E0D;&#x662F;&#x5BF9;&#x8C61;&#x3002;</p>
+</blockquote>
+<h6 id="&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5171;&#x540C;&#x4E4B;&#x5904;"><a href="#&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5171;&#x540C;&#x4E4B;&#x5904;" class="headerlink" title="&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5171;&#x540C;&#x4E4B;&#x5904;:"></a>&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5171;&#x540C;&#x4E4B;&#x5904;:</h6><ul>
+<li>&#x5B9A;&#x4E49;&#x5C5E;&#x6027;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x503C;&#xFF1B;</li>
+<li>&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x63D0;&#x4F9B;&#x529F;&#x80FD;&#xFF1B;</li>
+<li>&#x5B9A;&#x4E49;&#x9644;&#x5C5E;&#x811A;&#x672C;&#x7528;&#x4E8E;&#x8BBF;&#x95EE;&#x503C;&#xFF1B;</li>
+<li>&#x5B9A;&#x4E49;&#x6784;&#x9020;&#x5668;&#x7528;&#x4E8E;&#x751F;&#x6210;&#x521D;&#x59CB;&#x5316;&#x503C;&#xFF1B;</li>
+<li>&#x901A;&#x8FC7;&#x6269;&#x5C55;&#x4EE5;&#x589E;&#x52A0;&#x9ED8;&#x8BA4;&#x5B9E;&#x73B0;&#x7684;&#x529F;&#x80FD;&#xFF1B;</li>
+<li>&#x5B9E;&#x73B0;&#x534F;&#x8BAE;&#x4EE5;&#x63D0;&#x4F9B;&#x67D0;&#x79CD;&#x6807;&#x51C6;&#x529F;&#x80FD;&#xFF1B;<br>(&#x6CE8;: &#x540E;&#x7EED;&#x7AE0;&#x8282;&#x4F1A;&#x8BB2;&#x5230;<code>&#x5C5E;&#x6027;</code>&#x3001;<code>&#x65B9;&#x6CD5;</code>&#x3001;<code>&#x4E0B;&#x6807;&#x811A;&#x672C;</code>&#x3001;<code>&#x6784;&#x9020;&#x8FC7;&#x7A0B;</code>&#x3001;<code>&#x6269;&#x5C55;</code>&#x3001;<code>&#x534F;&#x8BAE;</code>)</li>
+</ul>
+<h6 id="&#x4E0E;&#x7ED3;&#x6784;&#x4F53;&#x76F8;&#x6BD4;&#xFF0C;&#x7C7B;&#x9644;&#x52A0;&#x4EE5;&#x4E0B;&#x529F;&#x80FD;"><a href="#&#x4E0E;&#x7ED3;&#x6784;&#x4F53;&#x76F8;&#x6BD4;&#xFF0C;&#x7C7B;&#x9644;&#x52A0;&#x4EE5;&#x4E0B;&#x529F;&#x80FD;" class="headerlink" title="&#x4E0E;&#x7ED3;&#x6784;&#x4F53;&#x76F8;&#x6BD4;&#xFF0C;&#x7C7B;&#x9644;&#x52A0;&#x4EE5;&#x4E0B;&#x529F;&#x80FD;:"></a>&#x4E0E;&#x7ED3;&#x6784;&#x4F53;&#x76F8;&#x6BD4;&#xFF0C;&#x7C7B;&#x9644;&#x52A0;&#x4EE5;&#x4E0B;&#x529F;&#x80FD;:</h6><ul>
+<li>&#x4E00;&#x4E2A;&#x7C7B;&#x5141;&#x8BB8;&#x7EE7;&#x627F;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x96F7;&#x7684;&#x7279;&#x5F81;&#xFF1B;</li>
+<li>&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x5141;&#x8BB8;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x68C0;&#x67E5;&#x548C;&#x89E3;&#x91CA;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#x7684;&#x7C7B;&#x578B;&#xFF1B;</li>
+<li>&#x6790;&#x6784;&#x5668;&#x5141;&#x8BB8;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#x91CA;&#x653E;&#x4EFB;&#x4F55;&#x5176;&#x6240;&#x5206;&#x914D;&#x7684;&#x8D44;&#x6E90;&#xFF1B;</li>
+<li>&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5141;&#x8BB8;&#x5BF9;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x591A;&#x6B21;&#x5F15;&#x7528;&#xFF1B;</li>
+</ul>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x7ED3;&#x6784;&#x4F53;&#x603B;&#x662F;&#x901A;&#x8FC7;&#x590D;&#x5236;&#x7684;&#x65B9;&#x5F0F;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x4F20;&#x9012;&#xFF0C;&#x4E0D;&#x9002;&#x7528;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x3002;</p>
+</blockquote>
+<p><br></p>
+<h1 id="&#x4E00;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x57FA;&#x672C;&#x4F7F;&#x7528;"><a href="#&#x4E00;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x57FA;&#x672C;&#x4F7F;&#x7528;" class="headerlink" title="&#x4E00;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x57FA;&#x672C;&#x4F7F;&#x7528;"></a>&#x4E00;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x57FA;&#x672C;&#x4F7F;&#x7528;</h1><hr>
+<ul>
+<li><p>&#x5B9A;&#x4E49;&#x8BED;&#x6CD5;&#x3002;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x5B9A;&#x4E49;&#x65B9;&#x5F0F;&#x7C7B;&#x4F3C;&#xFF0C;&#x901A;&#x8FC7;&#x5173;&#x952E;&#x5B57;<code>class</code>&#x8868;&#x793A;&#x7C7B;&#xFF0C;&#x901A;&#x8FC7;&#x5173;&#x952E;&#x5B57;<code>struct</code>&#x8868;&#x793A;&#x7ED3;&#x6784;&#x4F53;&#xFF0C;&#x5E76;&#x5728;&#x5927;&#x62EC;&#x53F7;&#x4E2D;&#x5B9A;&#x4E49;&#x5177;&#x4F53;&#x5185;&#x5BB9;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x732B;&#x7684;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CatClass</span> </span>{</span><br><span class="line">	<span class="comment">// &#x540D;&#x5B57;&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x9009;&#x7C7B;&#x578B;</span></span><br><span class="line">	<span class="keyword">var</span> name:<span class="type">String</span>?  </span><br><span class="line">	<span class="comment">// &#x989C;&#x8272;&#x5C5E;&#x6027;</span></span><br><span class="line">	<span class="keyword">var</span> color:<span class="type">UIColor</span>?</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x5C4F;&#x5E55;&#x7684;&#x7ED3;&#x6784;&#x4F53;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Screen</span> </span>{</span><br><span class="line">	<span class="comment">// &#x5C4F;&#x5E55;&#x5BBD;&#x5EA6;&#x5C5E;&#x6027;</span></span><br><span class="line">	<span class="keyword">var</span> w = <span class="number">0</span></span><br><span class="line">	<span class="comment">// &#x5C4F;&#x5E55;&#x9AD8;&#x5EA6;&#x5C5E;&#x6027;</span></span><br><span class="line">	<span class="keyword">var</span> h = <span class="number">0</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;&#x7C7B;&#x4F3C;&#x3002;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x7C7B;&#x90FD;&#x4F7F;&#x7528;&#x6784;&#x9020;&#x5668;&#x8BED;&#x6CD5;&#x6765;&#x751F;&#x6210;&#x65B0;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x6784;&#x9020;&#x5668;&#x8BED;&#x6CD5;&#x7684;&#x6700;&#x7B80;&#x5355;&#x65B9;&#x5F0F;&#x662F;&#x5728;&#x7C7B;&#x6216;&#x7ED3;&#x6784;&#x4F53;&#x7C7B;&#x578B;&#x540D;&#x540E;&#x9762;&#x8DDF;&#x968F;&#x4E00;&#x5BF9;&#x7A7A;&#x62EC;&#x53F7;&#x5373;&#x53EF;&#xFF0C;&#x800C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x521B;&#x5EFA;&#x7684;&#x7C7B;&#x6216;&#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;&#xFF0C;&#x5176;&#x5C5E;&#x6027;&#x90FD;&#x4F1A;&#x521D;&#x59CB;&#x5316;&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x7C7B;&#x7684;&#x5B9E;&#x4F8B;</span></span><br><span class="line"><span class="keyword">let</span> xiaomiao = <span class="type">CatClass</span>()</span><br><span class="line"><span class="comment">// &#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5B9E;&#x4F8B;</span></span><br><span class="line"><span class="keyword">var</span> myScreen = <span class="type">Screen</span>()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5C5E;&#x6027;&#x8BBF;&#x95EE;&#xFF0C;&#x4F7F;&#x7528;<em>&#x70B9;&#x8BED;&#x6CD5;</em>&#x3002;&#x89C4;&#x5219;&#x662F;&#xFF0C;&#x5B9E;&#x4F8B;&#x540D;&#x540E;&#x9762;&#x8DDF;&#x968F;&#x5C5E;&#x6027;&#x540D;&#xFF0C;&#x4E24;&#x8005;&#x901A;&#x8FC7;&#x70B9;<code>.</code>&#x8FDE;&#x63A5;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x7C7B;&#x5B9E;&#x4F8B;</span></span><br><span class="line"><span class="keyword">let</span> xiaomiao = <span class="type">CatClass</span>()</span><br><span class="line">xiaomiao.name = <span class="string">&quot;xiaomiao&quot;</span></span><br><span class="line">xiaomiao.color = <span class="type">UIColor</span>.whiteColor()</span><br><span class="line"><span class="comment">// &#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;</span></span><br><span class="line"><span class="keyword">var</span> myScreen = <span class="type">Screen</span>();</span><br><span class="line">myScreen.w = <span class="number">320</span></span><br><span class="line">myScreen.h = <span class="number">568</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7ED3;&#x6784;&#x4F53;&#x7C7B;&#x578B;&#x7684;&#x6210;&#x5458;&#x9010;&#x4E00;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x6240;&#x6709;&#x7ED3;&#x6784;&#x4F53;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x6210;&#x5458;&#x9010;&#x4E00;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x7528;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x6210;&#x5458;&#x5C5E;&#x6027;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myScreen = <span class="type">Screen</span>(w:<span class="number">320</span>, h:<span class="number">400</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>&#x6CE8;: &#x4E0E;&#x7ED3;&#x6784;&#x4F53;&#x4E0D;&#x540C;&#xFF0C;&#x7C7B;&#x5B9E;&#x4F8B;&#x6CA1;&#x6709;&#x9ED8;&#x8BA4;&#x7684;&#x6210;&#x5458;&#x9010;&#x4E00;&#x6784;&#x9020;&#x5668;&#x3002;</p>
+</blockquote>
+<p><br></p>
+<h1 id="&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x662F;&#x503C;&#x7C7B;&#x578B;"><a href="#&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x662F;&#x503C;&#x7C7B;&#x578B;" class="headerlink" title="&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x662F;&#x503C;&#x7C7B;&#x578B;"></a>&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x662F;&#x503C;&#x7C7B;&#x578B;</h1><hr>
+<p>&#x2003;<em>&#x503C;&#x7C7B;&#x578B;</em>&#x88AB;&#x8D4B;&#x4E88;&#x7ED9;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x3001;&#x5E38;&#x91CF;&#x6216;&#x8005;&#x88AB;&#x4F20;&#x9012;&#x7ED9;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5176;&#x503C;&#x4F1A;&#x88AB;<em>&#x62F7;&#x8D1D;</em>&#x3002;&#x5728;swift&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;:&#x6574;&#x5F62;&#x3001;&#x6D6E;&#x70B9;&#x6570;&#x3001;&#x5E03;&#x5C14;&#x503C;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#xFF0C;&#x90FD;&#x662F;&#x5C5E;&#x4E8E;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x5E95;&#x5C42;&#x90FD;&#x662F;&#x4EE5;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5F62;&#x5F0F;&#x5B9E;&#x73B0;&#x3002;<br>&#x2003;&#x5728;swift&#x4E2D;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x90FD;&#x662F;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x5B83;&#x4EEC;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x4EE5;&#x53CA;&#x5B9E;&#x4F8B;&#x4E2D;&#x6240;&#x5305;&#x542B;&#x7684;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x5C5E;&#x6027;&#xFF0C;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x4F20;&#x9012;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x4F1A;&#x88AB;&#x590D;&#x5236;&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x5C4F;&#x5E55;&#x7ED3;&#x6784;&#x4F53;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Screen</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> w = <span class="number">0</span></span><br><span class="line">	<span class="keyword">var</span> h = <span class="number">0</span></span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x5B9E;&#x4F8B;&#x7ED3;&#x6784;&#x4F53;</span></span><br><span class="line"><span class="keyword">var</span> myScreen1 = <span class="type">Screen</span>(w:<span class="number">320</span>, h:<span class="number">568</span>);</span><br><span class="line"><span class="comment">// &#x8D4B;&#x503C;&#xFF0C;&#x7ED3;&#x6784;&#x4F53;&#x662F;&#x503C;&#x4F20;&#x9012;&#x7C7B;&#x578B;&#xFF0C;&#x5373;&#x590D;&#x5236;&#x4E00;&#x4EFD;</span></span><br><span class="line"><span class="keyword">var</span> myScreen2 = myScreen1;</span><br><span class="line"><span class="comment">// &#x4FEE;&#x6539;myScreen2&#xFF0C;&#x4F46;myScreen1&#x4E2D;&#x662F;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5F71;&#x54CD;&#x7684;</span></span><br><span class="line">myScreen2.h = <span class="number">400</span>;</span><br><span class="line"><span class="comment">// &#x5B9E;&#x9645;myScreen1&#x548C;myScreen2&#x90FD;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x4F8B;</span></span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;myScreen1 --- w:<span class="subst">\(myScreen1.w)</span>  h:<span class="subst">\(myScreen1.h)</span>&quot;</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;myScreen2 --- w:<span class="subst">\(myScreen2.w)</span>  h:<span class="subst">\(myScreen2.h)</span>&quot;</span>);</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h1 id="&#x4E09;&#x3001;&#x7C7B;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;"><a href="#&#x4E09;&#x3001;&#x7C7B;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;" class="headerlink" title="&#x4E09;&#x3001;&#x7C7B;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;"></a>&#x4E09;&#x3001;&#x7C7B;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;</h1><hr>
+<p>&#x2003;&#x4E0E;<em>&#x503C;&#x7C7B;&#x578B;</em>&#x4E0D;&#x540C;&#xFF0C;<em>&#x5F15;&#x7528;&#x7C7B;&#x578B;</em>&#x5728;&#x8D4B;&#x4E88;&#x5230;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x3001;&#x5E38;&#x91CF;&#x6216;&#x88AB;&#x4F20;&#x9012;&#x5230;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5176;&#x503C;&#x4E0D;&#x4F1A;&#x88AB;&#x62F7;&#x8D1D;&#x3002;&#x56E0;&#x4E3A;&#x5F15;&#x7528;&#x64CD;&#x4F5C;&#x7684;&#x90FD;&#x662F;&#x5DF2;&#x5B58;&#x5728;&#x7684;&#x5B9E;&#x4F8B;&#x672C;&#x8EAB;&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x5B9A;&#x4E49;&#x732B;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CatClass</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> name:<span class="type">String</span>?</span><br><span class="line">	<span class="keyword">var</span> color:<span class="type">UIColor</span>?</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x732B;&#x54AA;&#x591A;&#x591A;</span></span><br><span class="line"><span class="keyword">let</span> duoduo = <span class="type">CatClass</span>();</span><br><span class="line">duoduo.name = <span class="string">&quot;&#x591A;&#x591A;&quot;</span>;</span><br><span class="line">duoduo.color = <span class="type">UIColor</span>.whiteColor();</span><br><span class="line"><span class="comment">// &#x8D4B;&#x503C;&#xFF0C;cat&#x5176;&#x5B9E;&#x8868;&#x793A;&#x5C31;&#x662F;duoduo&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x672C;&#x8EAB;</span></span><br><span class="line"><span class="keyword">let</span> cat = duoduo;</span><br><span class="line"><span class="comment">// &#x4FEE;&#x6539;&#x540D;&#x5B57;</span></span><br><span class="line">cat.name = <span class="string">&quot;&#x732B;&#x661F;&#x4EBA;-&#x591A;&#x591A;&quot;</span>;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;duoduo&#x540D;&#x5B57;:<span class="subst">\(duoduo.name)</span>&quot;</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;cat&#x540D;&#x5B57;:<span class="subst">\(cat.name)</span>&quot;</span>);</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">duoduo&#x540D;&#x5B57;:&#x732B;&#x661F;&#x4EBA;-&#x591A;&#x591A;</span><br><span class="line">cat&#x540D;&#x5B57;:&#x732B;&#x661F;&#x4EBA;-&#x591A;&#x591A;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>&#x7C7B;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;<code>duoduo</code>&#x548C;<code>cat</code>&#x662F;&#x5F15;&#x7528;&#x540C;&#x4E00;&#x4E2A;<code>CatClass</code>&#x5B9E;&#x4F8B;&#xFF0C;&#x5373;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF0C;&#x4E0D;&#x540C;&#x540D;&#x5B57;&#x3002;<br>&#x53E6;&#x5916;&#xFF0C;&#x58F0;&#x660E;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;<code>let</code>&#xFF0C;&#x4F9D;&#x65E7;&#x53EF;&#x4EE5;&#x6539;&#x53D8;<code>cat.name</code>&#x3002;&#x56E0;&#x4E3A;<code>duoduo</code>&#x548C;<code>cat</code>&#x8FD9;&#x4E24;&#x4E2A;&#x5E38;&#x91CF;&#x7684;&#x503C;&#x4E3A;&#x6539;&#x53D8;&#xFF0C;&#x53EA;&#x662F;&#x6539;&#x53D8;&#x5B83;&#x4EEC;&#x5F15;&#x7528;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;<code>name</code>&#x5C5E;&#x6027;&#x800C;&#x5DF2;&#x3002;</p>
+</blockquote>
+<ul>
+<li>&#x7B49;&#x4EF7;&#x4E8E;(<code>===</code>)&#x548C;&#x4E0D;&#x7B49;&#x4EF7;&#x4E8E;(<code>!==</code>)&#xFF0C;&#x5F53;&#x4F60;&#x8981;&#x5224;&#x65AD;&#x4E24;&#x4E2A;&#x5E38;&#x91CF;&#x6216;&#x8005;&#x53D8;&#x91CF;&#x662F;&#x5426;&#x5F15;&#x7528;&#x540C;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#x7684;&#x65F6;&#x5019;&#x8FDB;&#x884C;&#x4F7F;&#x7528;:<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x5224;&#x65AD;duoduo&#x548C;cat&#x662F;&#x5426;&#x5F15;&#x7528;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;</span></span><br><span class="line"><span class="keyword">if</span> duo duo === cat {</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;&#x5F15;&#x7528;&#x7684;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&quot;</span>);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x7B49;&#x4EF7;&#x4E8E;(&#x7528;&#x4E09;&#x4E2A;&#x7B49;&#x53F7;&#x8868;&#x793A;<code>===</code>)&#x4E0E;&#x7B49;&#x4E8E;(&#x7528;&#x4E24;&#x4E2A;&#x7B49;&#x53F7;&#x8868;&#x793A;<code>==</code>)&#x4E0D;&#x540C;:<br> &#x201C;&#x7B49;&#x4EF7;&#x4E8E;&#x201D;&#x8868;&#x793A;&#x4E24;&#x4E2A;&#x7C7B;&#x578B;&#x7684;&#x5E38;&#x91CF;&#x6216;&#x53D8;&#x91CF;&#x5F15;&#x7528;&#x540C;&#x4E00;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#xFF1B;<br>&#x201C;&#x7B49;&#x4E8E;&#x201D;&#x8868;&#x793A;&#x4E24;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;&#x503C;&#x201D;&#x76F8;&#x7B49;&#x201D;&#x6216;&#x201D;&#x76F8;&#x540C;&#x201D;&#xFF1B;</p>
+</blockquote>
+<p><br></p>
+<h1 id="&#x56DB;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x9009;&#x62E9;"><a href="#&#x56DB;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x9009;&#x62E9;" class="headerlink" title="&#x56DB;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x9009;&#x62E9;"></a>&#x56DB;&#x3001;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x9009;&#x62E9;</h1><hr>
+<p>&#x2003;&#x7C7B;&#x548C;&#x7ED3;&#x6784;&#x4F53;&#x90FD;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x81EA;&#x5B9A;&#x4E49;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x4F46;&#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;&#x603B;&#x662F;&#x901A;&#x8FC7;&#x503C;&#x4F20;&#x9012;&#xFF0C;&#x7C7B;&#x5B9E;&#x4F8B;&#x603B;&#x662F;&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x4F20;&#x9012;&#x3002;<br>&#x2003;&#x8003;&#x8651;&#x4F7F;&#x7528;&#x7ED3;&#x6784;&#x4F53;:</p>
+<ol>
+<li>&#x8BE5;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x7528;&#x6765;&#x5C01;&#x88C5;&#x5C11;&#x91CF;&#x76F8;&#x5173;&#x7B80;&#x5355;&#x6570;&#x636E;&#xFF1B;</li>
+<li>&#x9884;&#x8BA1;&#x8BE5;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x7684;&#x5B9E;&#x4F8B;&#x5728;&#x8D4B;&#x503C;&#x6216;&#x4F20;&#x9012;&#x65F6;&#xFF0C;&#x5C01;&#x88C5;&#x7684;&#x6570;&#x636E;&#x5C06;&#x4F1A;&#x88AB;&#x62F7;&#x8D1D;&#x800C;&#x4E0D;&#x662F;&#x88AB;&#x5F15;&#x7528;&#xFF1B;</li>
+</ol>
+<ul>
+<li>&#x8BE5;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E2D;&#x5B58;&#x50A8;&#x7684;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x4E5F;&#x5E94;&#x8BE5;&#x88AB;&#x62F7;&#x8D1D;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x88AB;&#x5F15;&#x7528;&#xFF1B;</li>
+<li>&#x8BE5;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4F53;&#x4E0D;&#x9700;&#x8981;&#x53BB;&#x7EE7;&#x627F;&#x53E6;&#x4E00;&#x4E2A;&#x65E2;&#x6709;&#x7C7B;&#x578B;&#x7684;&#x5C5E;&#x6027;&#x6216;&#x884C;&#x4E3A;&#xFF1B;</li>
+</ul>
+<blockquote>
+<p>&#x5176;&#x4ED6;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x7C7B;&#xFF0C;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x5B83;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x6765;&#x7BA1;&#x7406;&#x548C;&#x4F20;&#x9012;&#x3002;&#x5B9E;&#x9645;&#x4E2D;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x7EDD;&#x5927;&#x90E8;&#x5206;&#x7684;&#x81EA;&#x5B9A;&#x4E49;&#x6570;&#x636E;&#x6784;&#x9020;&#x90FD;&#x5E94;&#x8BE5;&#x662F;&#x5185;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7ED3;&#x6784;&#x4F53;&#x3002;</p>
+</blockquote>
+<p><br></p>
+<h1 id="&#x4E94;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x7C7B;&#x578B;&#x7684;&#x8D4B;&#x503C;&#x4E0E;&#x590D;&#x5236;&#x884C;&#x4E3A;"><a href="#&#x4E94;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x7C7B;&#x578B;&#x7684;&#x8D4B;&#x503C;&#x4E0E;&#x590D;&#x5236;&#x884C;&#x4E3A;" class="headerlink" title="&#x4E94;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x7C7B;&#x578B;&#x7684;&#x8D4B;&#x503C;&#x4E0E;&#x590D;&#x5236;&#x884C;&#x4E3A;"></a>&#x4E94;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x7C7B;&#x578B;&#x7684;&#x8D4B;&#x503C;&#x4E0E;&#x590D;&#x5236;&#x884C;&#x4E3A;</h1><hr>
+<p>&#x2003;&#x5728;swift&#x4E2D;&#xFF0C;&#x8BB8;&#x591A;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#xFF0C;&#x4F8B;&#x5982;String&#x3001;Array&#x3001;Dictionary&#x7C7B;&#x578B;&#x90FD;&#x662F;&#x4EE5;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x5F62;&#x5F0F;&#x5B9E;&#x73B0;&#x3002;&#x5373;&#x610F;&#x5473;&#x7740;&#x88AB;&#x8D4B;&#x503C;&#x6216;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x65F6;&#xFF0C;&#x5B83;&#x4EEC;&#x7684;&#x503C;&#x4F1A;&#x88AB;&#x62F7;&#x8D1D;&#x3002;<br>&#x2003;Objective-C&#x4E2D;NSString&#x3001;NSArray&#x3001;NSDictionaty&#x7C7B;&#x578B;&#x90FD;&#x662F;&#x7C7B;&#x7684;&#x5F62;&#x5F0F;&#x5B9E;&#x73B0;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7ED3;&#x6784;&#x4F53;&#x3002;&#x5373;&#x610F;&#x5473;&#x7740;&#x88AB;&#x8D4B;&#x503C;&#x6216;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x65F6;&#xFF0C;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x503C;&#x62F7;&#x8D1D;&#xFF0C;&#x800C;&#x662F;&#x4F20;&#x9012;&#x73B0;&#x6709;&#x5B9E;&#x4F8B;&#x7684;&#x5F15;&#x7528;&#x3002;</p>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x4EE5;&#x4E0A;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x5178;&#x7684;&#x201D;&#x62F7;&#x8D1D;&#x201D;&#x884C;&#x4E3A;&#x7684;&#xFF0C;&#x5373;&#x662F;&#x62F7;&#x8D1D;&#x884C;&#x4E3A;&#x770B;&#x4F3C;&#x603B;&#x4F1A;&#x53D1;&#x751F;&#x3002;&#x4F46;swift&#x4E2D;&#xFF0C;&#x6307;&#x5728;&#x7EDD;&#x5BF9;&#x5FC5;&#x8981;&#x65F6;&#x624D;&#x6267;&#x884C;&#x5B9E;&#x9645;&#x7684;&#x62F7;&#x8D1D;&#x3002;swift&#x7BA1;&#x7406;&#x6240;&#x6709;&#x7684;&#x503C;&#x62F7;&#x8D1D;&#x786E;&#x4FDD;&#x6027;&#x80FD;&#x6700;&#x4F18;&#x5316;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x4E0D;&#x5FC5;&#x53BB;&#x56DE;&#x907F;&#x8D4B;&#x503C;&#x6765;&#x786E;&#x4FDD;&#x6027;&#x80FD;&#x6700;&#x4F18;&#x5316;&#x3002;</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br></h2><h1 id="&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;"><a href="#&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;" class="headerlink" title="&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;"></a>&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;</h1>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/18/06-Swift枚举-Enumerations/" rel="next" title="06-枚举(Enumerations)">
+                <i class="fa fa-chevron-left"></i> 06-枚举(Enumerations)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/19/07-Swift类和结构体-Classes-and-Structures/"
+           data-title="07-类和结构体(Classes and Structures)" data-url="http://jarvan3.com/2016/06/19/07-Swift类和结构体-Classes-and-Structures/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/head.png"
+               alt="EndEvent" />
+          <p class="site-author-name" itemprop="name">EndEvent</p>
+          <p class="site-description motion-element" itemprop="description">hello Swift .</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#类和结构体的共同之处"><span class="nav-number">1.</span> <span class="nav-text">类和结构体的共同之处:</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#与结构体相比，类附加以下功能"><span class="nav-number">2.</span> <span class="nav-text">与结构体相比，类附加以下功能:</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、类和结构体基本使用"><span class="nav-number"></span> <span class="nav-text">一、类和结构体基本使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、结构体和枚举是值类型"><span class="nav-number"></span> <span class="nav-text">二、结构体和枚举是值类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、类是引用类型"><span class="nav-number"></span> <span class="nav-text">三、类是引用类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、类和结构体的选择"><span class="nav-number"></span> <span class="nav-text">四、类和结构体的选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、字符串、数组、字典类型的赋值与复制行为"><span class="nav-number"></span> <span class="nav-text">五、字符串、数组、字典类型的赋值与复制行为</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number"></span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注：xcode7-3环境"><span class="nav-number"></span> <span class="nav-text">注：xcode7.3环境</span></a></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EndEvent</span>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jarvan3"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("fenbO1sqMAMWYKT6mNoOTxY9-gzGzoHsz", "wkDESGajreyO0DhN4x94mKfI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
