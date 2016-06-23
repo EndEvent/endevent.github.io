@@ -1,0 +1,756 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x2003;&amp;#x65B9;&amp;#x6CD5;&amp;#x662F;&amp;#x4E0E;&amp;#x67D0;&amp;#x4E9B;&amp;#x7279;&amp;#x5B9A;&amp;#x7C7B;&amp;#x578B;&amp;#x76F8;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x51FD;&amp;#x6570;&amp;#x3002;&amp;#x7C7B;&amp;#x3001;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x3001;&amp;#x679A;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="09-方法(Methods)">
+<meta property="og:url" content="http://jarvan3.com/2016/06/23/09-方法-Methods/index.html">
+<meta property="og:site_name" content="EndEvent">
+<meta property="og:description" content="&amp;#x2003;&amp;#x65B9;&amp;#x6CD5;&amp;#x662F;&amp;#x4E0E;&amp;#x67D0;&amp;#x4E9B;&amp;#x7279;&amp;#x5B9A;&amp;#x7C7B;&amp;#x578B;&amp;#x76F8;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x51FD;&amp;#x6570;&amp;#x3002;&amp;#x7C7B;&amp;#x3001;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x3001;&amp;#x679A;">
+<meta property="og:updated_time" content="2016-06-23T14:22:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="09-方法(Methods)">
+<meta name="twitter:description" content="&amp;#x2003;&amp;#x65B9;&amp;#x6CD5;&amp;#x662F;&amp;#x4E0E;&amp;#x67D0;&amp;#x4E9B;&amp;#x7279;&amp;#x5B9A;&amp;#x7C7B;&amp;#x578B;&amp;#x76F8;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x51FD;&amp;#x6570;&amp;#x3002;&amp;#x7C7B;&amp;#x3001;&amp;#x7ED3;&amp;#x6784;&amp;#x4F53;&amp;#x3001;&amp;#x679A;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6296650805936129000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://jarvan3.com/2016/06/23/09-方法-Methods/"/>
+
+  <title> 09-方法(Methods) | EndEvent </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2dcf77ca7e928ec83b9e3c1bc6a0b9f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EndEvent</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                09-方法(Methods)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-23T18:29:36+08:00" content="2016-06-23">
+              2016-06-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/23/09-方法-Methods/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/23/09-方法-Methods/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/06/23/09-方法-Methods/" class="leancloud_visitors" data-flag-title="09-方法(Methods)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x2003;<em>&#x65B9;&#x6CD5;</em>&#x662F;&#x4E0E;&#x67D0;&#x4E9B;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x76F8;&#x5173;&#x8054;&#x7684;&#x51FD;&#x6570;&#x3002;&#x7C7B;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x3001;&#x679A;&#x4E3E;&#x90FD;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#xFF1B;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E3A;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x5B9E;&#x4F8B;&#x5C01;&#x88C5;&#x5177;&#x4F53;&#x7684;&#x4EFB;&#x52A1;&#x4E0E;&#x529F;&#x80FD;&#x3002;&#x7C7B;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x3001;&#x679A;&#x4E3E;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF1B;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x4E0E;&#x7C7B;&#x578B;&#x672C;&#x8EAB;&#x76F8;&#x5173;&#x8054;&#x3002;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x4E0E;OC&#x4E2D;&#x7684;&#x7C7B;&#x65B9;&#x6CD5;&#x7C7B;&#x4F3C;&#x3002;<br>&#x2003;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x80FD;&#x591F;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;&#x662F;swift&#x4E0E;C/OC&#x4E3B;&#x8981;&#x533A;&#x522B;&#x4E4B;&#x4E00;&#x3002;OC&#x4E2D;&#xFF0C;&#x7C7B;&#x662F;&#x552F;&#x4E00;&#x80FD;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;&#x7684;&#x7C7B;&#x578B;&#x3002;<br><a id="more"></a></p>
+<p><br></p>
+<h1 id="&#x4E00;&#x3001;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;"><a href="#&#x4E00;&#x3001;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E00;&#x3001;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;"></a>&#x4E00;&#x3001;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;</h1><hr>
+<p>&#x2003;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x662F;&#x5C5E;&#x4E8E;&#x67D0;&#x4E2A;&#x7279;&#x5B9A;&#x7C7B;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x3001;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x63D0;&#x4F9B;&#x8BBF;&#x95EE;&#x548C;&#x4FEE;&#x6539;&#x5B9E;&#x4F8B;&#x5C5E;&#x6027;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53E6;&#x5916;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x7684;&#x8BED;&#x6CD5;&#x4E0E;&#x51FD;&#x6570;&#x5B8C;&#x5168;&#x4E00;&#x81F4;(&#x53C2;&#x8003;<a href="http://www.jianshu.com/p/1a16c69b5600" target="_blank" rel="external">&#x51FD;&#x6570;</a>)&#x3002;<br>&#x2003;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x8981;&#x5199;&#x5728;&#x5B83;&#x6240;&#x5C5E;&#x7684;&#x7C7B;&#x578B;&#x7684;&#x5927;&#x62EC;&#x53F7;&#x5185;&#x3002;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x80FD;&#x591F;&#x9690;&#x5F0F;&#x8BBF;&#x95EE;&#x5B83;&#x6240;&#x5C5E;&#x7C7B;&#x578B;&#x7684;&#x6240;&#x6709;&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4EE5;&#x53CA;&#x5C5E;&#x6027;&#x3002;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x53EA;&#x80FD;&#x591F;&#x88AB;&#x5B83;&#x6240;&#x5C5E;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x8C03;&#x7528;&#x3002;</p>
+<ul>
+<li><p>&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x57FA;&#x672C;&#x4F7F;&#x7528;</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x5B66;&#x751F;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>{</span><br><span class="line">	<span class="comment">// &#x5B66;&#x4E60;&#x6B21;&#x6570;</span></span><br><span class="line">	<span class="keyword">var</span> <span class="built_in">count</span> = <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;1 - &#x8BF4;</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">speak</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;2 - &#x5B66;&#x4E60;</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">study</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="comment">// &#x6BCF;&#x5B66;&#x4E60;&#x4E00;&#x6B21;&#x5C31;&#x52A0;&#x4E00;</span></span><br><span class="line">		<span class="built_in">count</span> += <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;3 - &#x91CD;&#x7F6E;</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">reset</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="built_in">count</span> = <span class="number">0</span>;</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0E;&#x8C03;&#x7528;&#x5C5E;&#x6027;&#x4E00;&#x6837;&#xFF0C;&#x90FD;&#x662F;&#x901A;&#x8FC7;&#x70B9;&#x8BED;&#x6CD5;</span></span><br><span class="line"><span class="keyword">let</span> liming = <span class="type">Student</span>();</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;1</span></span><br><span class="line">liming.speak();</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;2</span></span><br><span class="line">liming.study();</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;3</span></span><br><span class="line">liming.reset();</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">hello</span><br><span class="line"><span class="built_in">count</span>:<span class="number">2</span></span><br><span class="line"><span class="built_in">count</span>:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x65B9;&#x6CD5;&#x7684;&#x5C40;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;&#x548C;&#x5916;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;&#x3002;swift&#x7684;&#x65B9;&#x6CD5;&#x548C;OC&#x4E2D;&#x7684;&#x65B9;&#x6CD5;&#x7C7B;&#x4F3C;&#xFF0C;&#x901A;&#x5E38;&#x7528;&#x4E00;&#x4E2A;&#x4ECB;&#x8BCD;&#x6307;&#x5411;&#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x4F8B;&#x5982;<code>with</code>&#x3001;<code>for</code>&#x3001;<code>by</code>&#x7B49;&#x3002;swift&#x4E2D;&#x9ED8;&#x8BA4;&#x4EC5;&#x7ED9;&#x65B9;&#x6CD5;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x662F;&#x5C40;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;&#xFF0C;&#x9ED8;&#x8BA4;&#x540C;&#x65F6;&#x7ED9;&#x7B2C;&#x4E8C;&#x4E2A;&#x548C;&#x540E;&#x7EED;&#x53C2;&#x6570;&#x540D;&#x79F0;&#x5C40;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;&#x548C;&#x5916;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>{</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5; - &#x5B66;&#x4E60;(&#x5177;&#x4F53;&#x5B66;&#x79D1;&#xFF0C;&#x8C01;&#x5B66;&#x4E60;)</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">studyWith</span><span class="params">(subjectStr:String, studentName:String)</span></span> {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(studentName)</span>&#x6B63;&#x5728;&#x5B66;&#x4E60;<span class="subst">\(subjectStr)</span>...&quot;</span>);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0E;&#x8C03;&#x7528;&#x5C5E;&#x6027;&#x4E00;&#x6837;&#xFF0C;&#x90FD;&#x662F;&#x901A;&#x8FC7;&#x70B9;&#x8BED;&#x6CD5;</span></span><br><span class="line"><span class="keyword">let</span> student = <span class="type">Student</span>();</span><br><span class="line"><span class="comment">// &#x65B9;&#x6CD5;&#x8C03;&#x7528;student.studyWith(subjectStr: String, studentName: String)</span></span><br><span class="line">student.studyWith(<span class="string">&quot;&#x82F1;&#x8BED;&quot;</span>, studentName: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>);</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x5F20;&#x4E09;&#x6B63;&#x5728;&#x5B66;&#x4E60;&#x82F1;&#x8BED;...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x4E0D;&#x5FC5;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x503C;&#x518D;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x53D8;&#x91CF;&#x540D;: &#x4ECE;&#x65B9;&#x6CD5;&#x540D;<code>studyWith(_, studentName:)</code>&#x53EF;&#x770B;&#x51FA;&#x5176;&#x4F5C;&#x7528;&#x3002;&#x4F46;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x5C31;&#x8981;&#x88AB;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x53C2;&#x6570;&#x540D;&#x79F0;&#x6240;&#x9650;&#x5B9A;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x65F6;&#x660E;&#x786E;&#x4F5C;&#x7528;&#x3002;</p>
+</blockquote>
+<ul>
+<li><p>self&#x5C5E;&#x6027;&#x3002;&#x7C7B;&#x578B;&#x7684;&#x6BCF;&#x4E2A;&#x5B9E;&#x4F8B;&#x90FD;&#x9690;&#x542B;&#x7740;&#x4E00;&#x4E2A;<code>self</code>&#xFF0C;<code>self</code>&#x5373;&#x8868;&#x793A;&#x662F;&#x5B9E;&#x4F8B;&#x672C;&#x8EAB;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> name:<span class="type">String</span>?;</span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">studyWith</span><span class="params">(name:String)</span></span> {</span><br><span class="line">		<span class="comment">// self&#x8868;&#x793A;&#x5B9E;&#x4F8B;&#x672C;&#x8EAB;&#xFF0C;&#x5373;&#x8BBF;&#x95EE;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;name&#x5C5E;&#x6027;</span></span><br><span class="line">		<span class="keyword">self</span>.name = name;</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span>&#x6B63;&#x5728;&#x5B66;&#x4E60;...&quot;</span>);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="keyword">let</span> student = <span class="type">Student</span>();</span><br><span class="line">student.studyWith(<span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>);</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x5F20;&#x4E09;&#x6B63;&#x5728;&#x5B66;&#x4E60;...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>self&#x5C5E;&#x6027;&#x6D88;&#x9664;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x548C;&#x5B9E;&#x4F8B;&#x5C5E;&#x6027;&#x4E4B;&#x95F4;&#x7684;&#x6B67;&#x4E49;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> x=<span class="number">0.0</span>, y=<span class="number">0.0</span>;</span><br><span class="line">	<span class="comment">// &#x5224;&#x65AD;x&#x662F;&#x5426;&#x5728;&#x70B9;(x,y)&#x7684;&#x53F3;&#x8FB9;</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">isToRightOfX</span><span class="params">(x:Double)</span></span> -&gt; <span class="type">Bool</span> {</span><br><span class="line">		<span class="comment">// &#x4F20;&#x5165;&#x53C2;&#x6570;&#x4E0E;&#x5C5E;&#x6027;x&#x76F8;&#x6BD4;&#x8F83;</span></span><br><span class="line">		<span class="comment">// self.x&#x8868;&#x793A;&#x662F;&#x5B9E;&#x4F8B;&#x5C5E;&#x6027;&#xFF0C;x&#x8868;&#x793A;&#x662F;&#x65B9;&#x6CD5;&#x53C2;&#x6570;</span></span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">self</span>.x &lt; x {</span><br><span class="line">			<span class="comment">// &#x8868;&#x5728;&#x53F3;&#x8FB9;</span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		} <span class="keyword">else</span> {</span><br><span class="line">			<span class="comment">// &#x8868;&#x5728;&#x5DE6;&#x8FB9;</span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x5B9E;&#x4F8B;&#x5316;&#x7ED3;&#x6784;&#x4F53;</span></span><br><span class="line"><span class="comment">// &#x6240;&#x6709;&#x7ED3;&#x6784;&#x4F53;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x6210;&#x5458;&#x9010;&#x4E00;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x7528;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x7ED3;&#x6784;&#x4F53;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x6210;&#x5458;&#x5C5E;&#x6027;</span></span><br><span class="line"><span class="keyword">var</span> somePoint = <span class="type">Point</span>(x:<span class="number">1.0</span>, y:<span class="number">1.0</span>);</span><br><span class="line"><span class="keyword">if</span> (somePoint.isToRightOfX(<span class="number">5.0</span>)) {</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;&#x53F3;&#x8FB9;&quot;</span>);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;&#x5DE6;&#x8FB9;&quot;</span>);</span><br><span class="line">}</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x53F3;&#x8FB9;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x5728;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E2D;&#x4FEE;&#x6539;&#x503C;&#x7C7B;&#x578B;&#x3002;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x662F;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x503C;&#x7C7B;&#x578B;&#x7684;&#x5C5E;&#x6027;&#x4E0D;&#x80FD;&#x518D;&#x5B83;&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E2D;&#x88AB;&#x4FEE;&#x6539;&#x3002;&#x5982;&#x679C;&#x60F3;&#x8981;&#x4FEE;&#x6539;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x7ED3;&#x6784;&#x4F53;&#x6216;&#x679A;&#x4E3E;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;<code>&#x53D8;&#x5F02;</code>&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x5373;&#x65B9;&#x6CD5;&#x5C31;&#x53EF;&#x4EE5;&#x4ECE;&#x65B9;&#x6CD5;&#x5185;&#x90E8;&#x6539;&#x53D8;&#x5B83;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x8BF7;&#x6C42;&#x4FEE;&#x6539;&#x5B8C;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x8FD8;&#x4F1A;&#x4FDD;&#x7559;&#x5728;&#x539F;&#x59CB;&#x7ED3;&#x6784;&#x4F53;&#x4E2D;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> x=<span class="number">0.0</span>, y=<span class="number">0.0</span>;</span><br><span class="line">	<span class="comment">// &#x5224;&#x65AD;x&#x662F;&#x5426;&#x5728;&#x70B9;(x,y)&#x7684;&#x53F3;&#x8FB9;</span></span><br><span class="line">	<span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">moveToPoint</span><span class="params">(newX newX:Double, newY:Double)</span></span> {</span><br><span class="line">		<span class="comment">// &#x4FEE;&#x6539;&#x7ED3;&#x6784;&#x4F53;&#x4E2D;&#x7684;&#x5C5E;&#x6027;</span></span><br><span class="line">		<span class="comment">// &#x5982;&#x679C;&#x6CA1;&#x6709;&apos;mutating&apos;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x5219;&#x4F1A;&#x62A5;&#x9519;</span></span><br><span class="line">		x = newX;</span><br><span class="line">		y = newY;</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x6CE8;&#x610F;&#x4E0D;&#x80FD;&#x518D;&#x5B9A;&#x4E49;&#x4E3A;&#x5E38;&#x91CF;&#xFF0C;&#x56E0;&#x4E3A;&#x5E38;&#x91CF;&#x7684;&#x5C5E;&#x6027;&#x4E0D;&#x80FD;&#x88AB;&#x4FEE;&#x6539;</span></span><br><span class="line"><span class="keyword">var</span> somePoint = <span class="type">Point</span>();</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x:<span class="subst">\(somePoint.x)</span>  y:<span class="subst">\(somePoint.y)</span>&quot;</span>);</span><br><span class="line">somePoint.moveToPoint(newX: <span class="number">30</span>, newY: <span class="number">30</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x:<span class="subst">\(somePoint.x)</span>  y:<span class="subst">\(somePoint.y)</span>&quot;</span>);</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">x:<span class="number">0.0</span>  y:<span class="number">0.0</span></span><br><span class="line">x:<span class="number">30.0</span>  y:<span class="number">30.0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x7ED3;&#x6784;&#x4F53;&#xFF0C;&#x5728;&#x53EF;&#x53D8;&#x65B9;&#x6CD5;&#x4E2D;&#x7ED9;self&#x8D4B;&#x503C;&#x3002;&#x53EF;&#x53D8;&#x65B9;&#x6CD5;&#x662F;&#x80FD;&#x591F;&#x7ED9;&#x9690;&#x542B;&#x5C5E;&#x6027;<code>self</code>&#x8D4B;&#x503C;&#x7684;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>{</span><br><span class="line">	<span class="keyword">var</span> x=<span class="number">0.0</span>, y=<span class="number">0.0</span>;</span><br><span class="line">	<span class="comment">// &#x5224;&#x65AD;x&#x662F;&#x5426;&#x5728;&#x70B9;(x,y)&#x7684;&#x53F3;&#x8FB9;</span></span><br><span class="line">	<span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">moveToPoint</span><span class="params">(newX newX:Double, newY:Double)</span></span> {</span><br><span class="line">		<span class="comment">// &#x5199;&#x6CD5;&#x4E8C;&#xFF0C;&#x76F4;&#x63A5;&#x7ED9;&#x672C;&#x5B9E;&#x4F8B;&#x8D4B;&#x503C;</span></span><br><span class="line">		<span class="keyword">self</span> = <span class="type">Point</span>(x:newX, y:newY);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="keyword">var</span> somePoint = <span class="type">Point</span>();</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x:<span class="subst">\(somePoint.x)</span>  y:<span class="subst">\(somePoint.y)</span>&quot;</span>);</span><br><span class="line">somePoint.moveToPoint(newX: <span class="number">30</span>, newY: <span class="number">30</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x:<span class="subst">\(somePoint.x)</span>  y:<span class="subst">\(somePoint.y)</span>&quot;</span>);</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">x:<span class="number">0.0</span>  y:<span class="number">0.0</span></span><br><span class="line">x:<span class="number">30.0</span>  y:<span class="number">30.0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>&#x679A;&#x4E3E;&#x7684;&#x53EF;&#x53D8;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x628A;<code>self</code>&#x8BBE;&#x7F6E;&#x4E3A;&#x76F8;&#x540C;&#x7684;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x4E2D;&#x4E0D;&#x540C;&#x6210;&#x5458;:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x4E09;&#x6001;&#x5F00;&#x5173;&#x7684;&#x679A;&#x4E3E;</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">StatuSwitch</span> </span>{</span><br><span class="line">	<span class="comment">// &#x5173;&#x95ED;&#x7684;&#x3001;&#x6697;&#x7684;&#x3001;&#x9AD8;&#x4EAE;&#x7684;</span></span><br><span class="line">	<span class="keyword">case</span> <span class="type">Off</span>, <span class="type">Low</span>, <span class="type">High</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;</span></span><br><span class="line">	<span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">next</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="keyword">switch</span> <span class="keyword">self</span> {</span><br><span class="line">		<span class="keyword">case</span> <span class="type">Off</span>:</span><br><span class="line">			<span class="keyword">self</span> = <span class="type">Low</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="type">Low</span>:</span><br><span class="line">			<span class="keyword">self</span> = <span class="type">High</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="type">High</span>:</span><br><span class="line">			<span class="keyword">self</span> = <span class="type">Off</span>;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x9ED8;&#x8BA4;&#x662F;&#x5173;&#x95ED;</span></span><br><span class="line"><span class="keyword">var</span> someStatu = <span class="type">StatuSwitch</span>.<span class="type">Off</span>;    <span class="comment">// Off</span></span><br><span class="line">someStatu.next();   <span class="comment">// Low</span></span><br><span class="line">someStatu.next();   <span class="comment">// High</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><br></p>
+<h1 id="&#x4E8C;&#x3001;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;"><a href="#&#x4E8C;&#x3001;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E8C;&#x3001;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;"></a>&#x4E8C;&#x3001;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;</h1><hr>
+<p>&#x2003;&#x901A;&#x8FC7;&#x7C7B;&#x578B;&#x672C;&#x8EAB;&#x8C03;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x79F0;&#x4E3A;<em>&#x7C7B;&#x578B;&#x65B9;&#x6CD5;</em>&#x3002;&#x58F0;&#x660E;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x7684;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF0C;&#x5728;&#x65B9;&#x6CD5;&#x7684;<code>func</code>&#x5173;&#x952E;&#x5B57;&#x524D;&#x9762;&#x52A0;&#x4E0A;<code>static</code>&#x3002;&#x7C7B;&#x53EF;&#x4EE5;&#x7528;&#x5173;&#x952E;&#x5B57;<code>class</code>&#x6765;&#x5141;&#x8BB8;&#x5B50;&#x7C7B;&#x91CD;&#x5199;&#x7236;&#x7C7B;&#x65B9;&#x6CD5;&#x3002;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x548C;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E00;&#x6837;&#x7528;&#x70B9;&#x8BED;&#x6CD5;&#x8C03;&#x7528;&#x3002;</p>
+<ul>
+<li>&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x57FA;&#x672C;&#x4F7F;&#x7528;:<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">someClass</span> </span>{</span><br><span class="line">	<span class="comment">// &#x7C7B;&#x578B;&#x65B9;&#x6CD5;</span></span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">speak</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;hello Swift&quot;</span>);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;someClass&#x7C7B;&#x578B;&#x65B9;&#x6CD5;</span></span><br><span class="line">someClass.speak();</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">hello <span class="type">Swift</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>&#x5728;OC&#x4E2D;&#xFF0C;&#x53EA;&#x80FD;&#x4E3A;&#x7C7B;&#x5B9A;&#x4E49;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x3002;&#x5728;swift&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;&#x7C7B;&#x3001;&#x7ED3;&#x6784;&#x4F53;&#x3001;&#x679A;&#x4E3E;&#x5B9A;&#x4E49;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x3002;</p>
+</blockquote>
+<ul>
+<li>&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF0C;&#x53EA;&#x80FD;&#x8C03;&#x7528;&#x672C;&#x7C7B;&#x4E2D;&#x53E6;&#x5916;&#x7684;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF0C;&#x76F4;&#x63A5;&#x5C31;&#x662F;&#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x540D;&#x5373;&#x53EF;&#x8C03;&#x7528;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x52A0;&#x4E0A;&#x7C7B;&#x578B;&#x7684;&#x540D;&#x79F0;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x901A;&#x8FC7;&#x9759;&#x6001;&#x5C5E;&#x6027;&#x540D;&#x6765;&#x8BBF;&#x95EE;&#x9759;&#x6001;&#x5C5E;&#x6027;&#xFF0C;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x7C7B;&#x578B;&#x540D;&#x79F0;(&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x4E5F;&#x540C;&#x6837;):<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x8BE5;&#x7ED3;&#x6784;&#x4F53;&#x7528;&#x4E8E;&#x68C0;&#x6D4B;&#x73A9;&#x5BB6;&#x7684;&#x7B49;&#x7EA7;&#xFF0C;&#x4EE5;&#x53CA;&#x7B49;&#x7EA7;&#x9650;&#x5236;&#x7684;&#x89E3;&#x9501;&#x64CD;&#x4F5C;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LevelTracker</span> </span>{</span><br><span class="line">	<span class="comment">// &#x5DF2;&#x7ECF;&#x89E3;&#x9501;&#x7684;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;&#xFF0C;&#x9759;&#x6001;&#x5C5E;&#x6027;</span></span><br><span class="line">	<span class="comment">// &#x9ED8;&#x8BA4;&#x6240;&#x6709;&#x73A9;&#x5BB6;&#x89E3;&#x9501;&#x7684;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;&#x90FD;&#x662F;1</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">var</span> highestUnlockLevel = <span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// &#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF0C;&#x6539;&#x53D8;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;</span></span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">unlockLevel</span><span class="params">(level:Int)</span></span> {</span><br><span class="line">		<span class="keyword">if</span> level &gt; highestUnlockLevel {</span><br><span class="line">			highestUnlockLevel = level;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// &#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#xFF0C;&#x5224;&#x65AD;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;&#x662F;&#x5426;&#x89E3;&#x9501;</span></span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">unlockLevelStauts</span><span class="params">(level:Int)</span></span> -&gt; <span class="type">Bool</span> {</span><br><span class="line">		<span class="keyword">return</span> highestUnlockLevel &gt;= level;</span><br><span class="line">	}</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// &#x73A9;&#x5BB6;&#x5F53;&#x524D;&#x7B49;&#x7EA7;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;1&#x7EA7;</span></span><br><span class="line">	<span class="keyword">var</span> currentLevel = <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5; - &#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7B49;&#x7EA7;</span></span><br><span class="line">	<span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">advanceLevel</span><span class="params">(level:Int)</span></span> -&gt; <span class="type">Bool</span> {</span><br><span class="line">		<span class="comment">// &#x68C0;&#x67E5;&#x65B0;&#x7B49;&#x7EA7;&#x662F;&#x5426;&#x89E3;&#x9501;&#x6210;&#x529F;</span></span><br><span class="line">		<span class="keyword">if</span> <span class="type">LevelTracker</span>.unlockLevelStauts(level) {    <span class="comment">// &#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;</span></span><br><span class="line">			currentLevel = level;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;    <span class="comment">// &#x8868;&#x5F53;&#x524D;&#x7B49;&#x7EA7;&#x66F4;&#x65B0;&#x6210;&#x529F;</span></span><br><span class="line">		} <span class="keyword">else</span> {</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x73A9;&#x5BB6;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Player</span> </span>{</span><br><span class="line">	<span class="comment">// &#x68C0;&#x6D4B;&#x548C;&#x66F4;&#x65B0;&#x73A9;&#x5BB6;&#x7B49;&#x7EA7;</span></span><br><span class="line">	<span class="keyword">var</span> playerLevelTracker = <span class="type">LevelTracker</span>();</span><br><span class="line">	<span class="comment">// &#x73A9;&#x5BB6;&#x540D;</span></span><br><span class="line">	<span class="keyword">var</span> playerName:<span class="type">String</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">	<span class="comment">// &#x5B9E;&#x4F8B;&#x65B9;&#x6CD5; - &#x73A9;&#x5BB6;&#x5B8C;&#x6210;&#x4EFB;&#x52A1;&#xFF0C;&#x89E3;&#x9501;&#x4E0B;&#x4E00;&#x4E2A;&#x7B49;&#x7EA7;</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">completedTask</span><span class="params">(level:Int)</span></span> {</span><br><span class="line">		<span class="comment">// &#x89E3;&#x9501;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;</span></span><br><span class="line">		<span class="type">LevelTracker</span>.unlockLevel(level);</span><br><span class="line">		<span class="comment">// &#x66F4;&#x65B0;&#x5F53;&#x524D;&#x7B49;&#x7EA7;</span></span><br><span class="line">		playerLevelTracker.advanceLevel(level);</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">// &#x6784;&#x9020;&#x65B9;&#x6CD5;</span></span><br><span class="line">	<span class="keyword">init</span>(name:<span class="type">String</span>) {</span><br><span class="line">		playerName = name;</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x5B9E;&#x4F8B;&#x5316;&#x73A9;&#x5BB6;1</span></span><br><span class="line"><span class="keyword">var</span> player1 = <span class="type">Player</span>(name: <span class="string">&quot;EndEvent&quot;</span>);</span><br><span class="line"><span class="comment">// &#x73A9;&#x5BB6;&#x5B8C;&#x6210;&#x2018;&#x7B49;&#x7EA7;1&#x2019;&#x7684;&#x4EFB;&#x52A1;</span></span><br><span class="line">player1.completedTask(<span class="number">1</span>);</span><br><span class="line"><span class="comment">// &#x73A9;&#x5BB6;&#x89E3;&#x9501;&#x7684;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;&#x73A9;&#x5BB6;&#x89E3;&#x9501;&#x7684;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;: <span class="subst">\(LevelTracker.highestUnlockLevel)</span>&quot;</span>);</span><br><span class="line"><span class="comment">// &#x73A9;&#x5BB6;2</span></span><br><span class="line"><span class="keyword">var</span> player2 = <span class="type">Player</span>(name: <span class="string">&quot;zhangsan&quot;</span>);</span><br><span class="line"><span class="comment">// &#x5C1D;&#x8BD5;&#x76F4;&#x63A5;&#x66F4;&#x65B0;&#x5230;&quot;&#x7B49;&#x7EA7;6&quot;</span></span><br><span class="line"><span class="keyword">if</span> player2.playerLevelTracker.advanceLevel(<span class="number">6</span>) {</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;&#x66F4;&#x65B0;&#x6210;&#x529F;&quot;</span>);</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;&#x66F4;&#x65B0;&#x5931;&#x8D25;&quot;</span>);</span><br><span class="line">}</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x73A9;&#x5BB6;&#x89E3;&#x9501;&#x7684;&#x6700;&#x9AD8;&#x7B49;&#x7EA7;: <span class="number">1</span></span><br><span class="line">&#x66F4;&#x65B0;&#x5931;&#x8D25;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/20/08-Swift属性-Properties/" rel="next" title="08-Swift属性(Properties)">
+                <i class="fa fa-chevron-left"></i> 08-Swift属性(Properties)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/23/09-方法-Methods/"
+           data-title="09-方法(Methods)" data-url="http://jarvan3.com/2016/06/23/09-方法-Methods/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/head.png"
+               alt="EndEvent" />
+          <p class="site-author-name" itemprop="name">EndEvent</p>
+          <p class="site-description motion-element" itemprop="description">hello Swift .</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、实例方法"><span class="nav-number">1.</span> <span class="nav-text">一、实例方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、类型方法"><span class="nav-number">2.</span> <span class="nav-text">二、类型方法</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EndEvent</span>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jarvan3"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("fenbO1sqMAMWYKT6mNoOTxY9-gzGzoHsz", "wkDESGajreyO0DhN4x94mKfI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
