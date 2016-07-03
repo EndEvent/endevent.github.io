@@ -1,0 +1,776 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x2003;swift&amp;#x4F7F;&amp;#x7528;&amp;#x81EA;&amp;#x52A8;&amp;#x5F15;&amp;#x7528;&amp;#x8BA1;&amp;#x6570;(ARC)&amp;#x673A;&amp;#x5236;&amp;#x6765;&amp;#x8DDF;&amp;#x8E2A;&amp;#x548C;&amp;#x7BA1;&amp;#x7406;&amp;#x5E94;&amp;#x7528;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x5185;&amp;#x5B5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="14-Swift自动引用计数(循环引用的解决)">
+<meta property="og:url" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/index.html">
+<meta property="og:site_name" content="EndEvent">
+<meta property="og:description" content="&amp;#x2003;swift&amp;#x4F7F;&amp;#x7528;&amp;#x81EA;&amp;#x52A8;&amp;#x5F15;&amp;#x7528;&amp;#x8BA1;&amp;#x6570;(ARC)&amp;#x673A;&amp;#x5236;&amp;#x6765;&amp;#x8DDF;&amp;#x8E2A;&amp;#x548C;&amp;#x7BA1;&amp;#x7406;&amp;#x5E94;&amp;#x7528;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x5185;&amp;#x5B5">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/01.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/02.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/03.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/04.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/05.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/06.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/07.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/08.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/09.png">
+<meta property="og:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/10.png">
+<meta property="og:updated_time" content="2016-07-03T14:24:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="14-Swift自动引用计数(循环引用的解决)">
+<meta name="twitter:description" content="&amp;#x2003;swift&amp;#x4F7F;&amp;#x7528;&amp;#x81EA;&amp;#x52A8;&amp;#x5F15;&amp;#x7528;&amp;#x8BA1;&amp;#x6570;(ARC)&amp;#x673A;&amp;#x5236;&amp;#x6765;&amp;#x8DDF;&amp;#x8E2A;&amp;#x548C;&amp;#x7BA1;&amp;#x7406;&amp;#x5E94;&amp;#x7528;&amp;#x7A0B;&amp;#x5E8F;&amp;#x7684;&amp;#x5185;&amp;#x5B5">
+<meta name="twitter:image" content="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6296650805936129000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/"/>
+
+  <title> 14-Swift自动引用计数(循环引用的解决) | EndEvent </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2dcf77ca7e928ec83b9e3c1bc6a0b9f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EndEvent</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                14-Swift自动引用计数(循环引用的解决)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-29T00:45:01+08:00" content="2016-06-29">
+              2016-06-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/29/14-Swift自动引用计数-循环引用的解决/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/29/14-Swift自动引用计数-循环引用的解决/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/06/29/14-Swift自动引用计数-循环引用的解决/" class="leancloud_visitors" data-flag-title="14-Swift自动引用计数(循环引用的解决)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x2003;swift&#x4F7F;&#x7528;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;(ARC)&#x673A;&#x5236;&#x6765;&#x8DDF;&#x8E2A;&#x548C;&#x7BA1;&#x7406;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7684;&#x5185;&#x5B58;&#x3002;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;swift&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x673A;&#x5236;&#x4F1A;&#x4E00;&#x76F4;&#x8D77;&#x4F5C;&#x7528;&#xFF0C;&#x5373;&#x5F00;&#x53D1;&#x8005;&#x65E0;&#x9700;&#x8003;&#x8651;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x3002;ARC&#x4F1A;&#x5728;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x4E0D;&#x518D;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x5373;&#x6CA1;&#x6709;&#x5F15;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x81EA;&#x52A8;&#x91CA;&#x653E;&#x5176;&#x6240;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x3002;<br>&#x2003;<a id="more"></a><br>&#x2003;&#x4F46;&#x662F;&#x8981;&#x6CE8;&#x610F;&#xFF0C;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4EC5;&#x4EC5;&#x5E94;&#x7528;&#x5728;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x56E0;&#x4E3A;&#x7ED3;&#x6784;&#x4F53;&#x548C;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x662F;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x4E0D;&#x662F;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#xFF0C;&#x4E5F;&#x4E0D;&#x662F;&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x7684;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x548C;&#x4F20;&#x9012;&#x7684;&#x3002;</p>
+<p><br></p>
+<h1 id="&#x4E00;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;"><a href="#&#x4E00;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;" class="headerlink" title="&#x4E00;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;"></a>&#x4E00;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;</h1><hr>
+<p>&#x2003;&#x5F53;&#x5728;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x65F6;&#xFF0C;ARC&#x4F1A;&#x5206;&#x914D;&#x4E00;&#x4E2A;&#x5185;&#x5B58;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x5B9E;&#x4F8B;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x5185;&#x5B58;&#x4E2D;&#x4F1A;&#x5305;&#x542B;&#x5B9E;&#x4F8B;&#x7684;&#x7C7B;&#x578B;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x53CA;&#x8FD9;&#x4E2A;&#x5B9E;&#x4F8B;&#x4E2D;&#x6240;&#x6709;&#x76F8;&#x5173;&#x5C5E;&#x6027;&#x7684;&#x503C;&#x3002;<br>&#x2003;&#x5F53;&#x5B9E;&#x4F8B;&#x4E0D;&#x518D;&#x88AB;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;ARC&#x4F1A;&#x91CA;&#x653E;&#x8BE5;&#x5B9E;&#x4F8B;&#x6240;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#xFF0C;&#x5E76;&#x8BA9;&#x91CA;&#x653E;&#x7684;&#x5185;&#x5B58;&#x632A;&#x4F5C;&#x4ED6;&#x7528;&#x3002;&#x8FD9;&#x5373;&#x662F;&#x786E;&#x4FDD;&#x4E86;&#x4E0D;&#x518D;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x4E0D;&#x4F1A;&#x4E00;&#x76F4;&#x5360;&#x7528;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x3002;<br>&#x2003;&#x4E3A;&#x4E86;&#x786E;&#x4FDD;&#x4F7F;&#x7528;&#x4E2D;&#x7684;&#x5B9E;&#x4F8B;&#x4E0D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;&#xFF0C;ARC&#x4F1A;&#x8DDF;&#x8E2A;&#x548C;&#x8BA1;&#x7B97;&#x6BCF;&#x4E2A;&#x5B9E;&#x4F8B;&#x6B63;&#x5728;&#x88AB;&#x591A;&#x5C11;&#x5C5E;&#x6027;&#x3001;&#x53D8;&#x91CF;&#x548C;&#x5E38;&#x91CF;&#x6240;&#x5F15;&#x7528;&#xFF0C;&#x53EA;&#x8981;&#x662F;&#x5B9E;&#x4F8B;&#x8FD8;&#x6709;&#x88AB;&#x5F15;&#x7528;&#xFF0C;ARC&#x5C31;&#x4E0D;&#x4F1A;&#x9500;&#x6BC1;&#x8BE5;&#x5B9E;&#x4F8B;&#x3002;</p>
+<blockquote>
+<p>&#x4E0D;&#x8BBA;&#x662F;&#x5C06;&#x5B9E;&#x4F8B;&#x8D4B;&#x503C;&#x7ED9;&#x5C5E;&#x6027;&#x3001;&#x5E38;&#x91CF;&#x8FD8;&#x662F;&#x53D8;&#x91CF;&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x4F1A;&#x521B;&#x5EFA;&#x5BF9;&#x6B64;&#x5B9E;&#x4F8B;&#x7684;<em>&#x5F3A;&#x5F15;&#x7528;</em>&#x3002;<em>&#x5F3A;&#x5F15;&#x7528;</em>&#x5C31;&#x662F;&#x5C06;&#x5B9E;&#x4F8B;&#x7262;&#x7262;&#x7684;&#x4FDD;&#x6301;&#x4F4F;&#xFF0C;&#x53EA;&#x8981;&#x662F;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x5B9E;&#x4F8B;&#x5C31;&#x4E0D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;!!!</p>
+</blockquote>
+<p><br></p>
+<h1 id="&#x4E8C;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5B9E;&#x8DF5;"><a href="#&#x4E8C;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5B9E;&#x8DF5;" class="headerlink" title="&#x4E8C;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5B9E;&#x8DF5;"></a>&#x4E8C;&#x3001;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x5B9E;&#x8DF5;</h1><hr>
+<p>&#x4EE5;&#x4E0B;&#x662F;&#x5C55;&#x793A;&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x7684;&#x5DE5;&#x4F5C;&#x673A;&#x5236;:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>{</span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>) { <span class="comment">// &#x6784;&#x9020;&#x5668;</span></span><br><span class="line">        <span class="keyword">self</span>.name = name;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x540D;&#x5B57;&#x7684;&#x521D;&#x59CB;&#x503C;&#x4E3A;:<span class="subst">\(name)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">deinit</span> {    <span class="comment">// &#x6790;&#x6784;&#x5668;</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x5B9E;&#x4F8B;&#x5C06;&#x4F1A;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5B9A;&#x4E49;&#x4E09;&#x4E2A;&#x5B66;&#x751F;&#x53D8;&#x91CF;&#xFF0C;&#x7C7B;&#x578B;&#x662F;Student?&#xFF0C;&#x6CE8;&#x610F;&#x662F;&#x53EF;&#x9009;&#x7C7B;&#x578B;</span></span><br><span class="line"><span class="keyword">var</span> student1:<span class="type">Student</span>?;</span><br><span class="line"><span class="keyword">var</span> student2:<span class="type">Student</span>?;</span><br><span class="line"><span class="keyword">var</span> student3:<span class="type">Student</span>?;</span><br><span class="line"><span class="comment">// &#x5B9E;&#x4F8B;&#x5316;&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5F3A;&#x5F15;&#x7528;</span></span><br><span class="line"><span class="comment">// // &#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;1</span></span><br><span class="line">student1 = <span class="type">Student</span>(name: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;&#x5B66;&#x751F;&#x59D3;&#x540D;: <span class="subst">\(student1!.name)</span>&quot;</span>);</span><br><span class="line"><span class="comment">// &#x8D4B;&#x503C;&#x64CD;&#x4F5C;</span></span><br><span class="line">student2 = student1; <span class="comment">// &#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;2</span></span><br><span class="line">student3 = student1; <span class="comment">// &#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;3</span></span><br><span class="line"><span class="comment">// &#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x53D8;&#x91CF;&#x4E3A;`nil`&#xFF0C;&#x5373;&#x662F;&#x65AD;&#x5F00;&#x5F3A;&#x5F15;&#x7528;</span></span><br><span class="line">student1 = <span class="literal">nil</span>; <span class="comment">// &#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;2</span></span><br><span class="line">student2 = <span class="literal">nil</span>; <span class="comment">// &#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x6CE8;&#x610F;&#x770B;&#x6253;&#x5370;&#x6548;&#x679C;&#xFF0C;&#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x662F;&#x6CA1;&#x6709;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;`deinit`&#x6790;&#x6784;&#x5668;&#x4E2D;&#x4EE3;&#x7801;&#x8FD8;&#x6CA1;&#x88AB;&#x8C03;&#x7528;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5F53;student3&#x8BBE;&#x7F6E;&#x4E3A;`nil`&#x65F6;&#xFF0C;&#x6B64;&#x65F6;Student&#x5B9E;&#x4F8B;&#x5F3A;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x4E3A;0</span></span><br><span class="line">student3 = <span class="literal">nil</span>;</span><br><span class="line"><span class="comment">// &#x5F53;&#x6CA1;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x624D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;</span></span><br><span class="line"></span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x540D;&#x5B57;&#x7684;&#x521D;&#x59CB;&#x503C;&#x4E3A;:&#x5F20;&#x4E09;</span><br><span class="line">&#x5B66;&#x751F;&#x59D3;&#x540D;: &#x5F20;&#x4E09;</span><br><span class="line">&#x5B9E;&#x4F8B;&#x5C06;&#x4F1A;&#x88AB;&#x91CA;&#x653E; --- &#x5F20;&#x4E09;</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h1 id="&#x4E09;&#x3001;&#x7C7B;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"><a href="#&#x4E09;&#x3001;&#x7C7B;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;" class="headerlink" title="&#x4E09;&#x3001;&#x7C7B;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"></a>&#x4E09;&#x3001;&#x7C7B;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</h1><hr>
+<p>&#x2003;&#x5982;&#x679C;&#x4E24;&#x4E2A;&#x7C7B;&#x5B9E;&#x4F8B;&#x76F8;&#x4E92;&#x6301;&#x6709;&#x5BF9;&#x65B9;&#x7684;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x5373;&#x662F;<em>&#x5FAA;&#x73AF;&#x5F15;&#x7528;</em>&#x3002;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x5B9A;&#x4E49;&#x7C7B;&#x4E4B;&#x95F4;&#x5173;&#x7CFB;&#x4E3A;<em>&#x5F31;&#x5F15;&#x7528;</em>&#x6216;<em>&#x65E0;&#x4E3B;&#x5F15;&#x7528;</em>&#xFF0C;&#x4EE5;&#x4EE3;&#x66FF;&#x5F3A;&#x5F15;&#x7528;(&#x4E0B;&#x9762;&#x4F1A;&#x6709;&#x5B9E;&#x9645;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#xFF0C;&#x8FD9;&#x91CC;&#x5148;&#x4E86;&#x89E3;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x662F;&#x600E;&#x4E48;&#x4EA7;&#x751F;&#x7684;)&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> Student&#x5B66;&#x751F;&#x7C7B;: &#x5177;&#x4F53;&#x67D0;&#x4E2A;&#x5B66;&#x751F;&#xFF0C;&#x54EA;&#x4E2A;&#x73ED;&#x7EA7;</span><br><span class="line"> Grade&#x73ED;&#x7EA7;&#x7C7B;: &#x5177;&#x4F53;&#x73ED;&#x7EA7;&#xFF0C;&#x73ED;&#x7EA7;&#x91CC;&#x7684;&#x5B66;&#x751F;&#x6709;&#x8C01;</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>{</span><br><span class="line">    <span class="comment">// &#x5B66;&#x751F;&#x540D;&#x5B57;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="comment">// &#x6784;&#x9020;&#x5668;</span></span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x54EA;&#x4E2A;&#x73ED;&#x7EA7;</span></span><br><span class="line">    <span class="keyword">var</span> grade:<span class="type">Grade</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x6790;&#x6784;&#x5668;</span></span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x5B9E;&#x4F8B;&#x5C06;&#x4F1A;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Grade</span> </span>{</span><br><span class="line">    <span class="comment">// &#x54EA;&#x4E2A;&#x73ED;&#x7EA7;</span></span><br><span class="line">    <span class="keyword">let</span> gradeName:<span class="type">String</span></span><br><span class="line">    <span class="comment">//&#x6784;&#x9020;&#x5668;</span></span><br><span class="line">    <span class="keyword">init</span>(gradeName:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.gradeName = gradeName</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x73ED;&#x7EA7;&#x4E2D;&#x7684;&#x5B66;&#x751F;</span></span><br><span class="line">    <span class="keyword">var</span> student:<span class="type">Student</span>?</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6790;&#x6784;&#x5668;</span></span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x5B9E;&#x4F8B;&#x5C06;&#x4F1A;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(gradeName)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5B66;&#x751F;: &#x5F20;&#x4E09;</span></span><br><span class="line"><span class="keyword">var</span> student:<span class="type">Student</span>? = <span class="type">Student</span>(name: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>)</span><br><span class="line"><span class="comment">// &#x73ED;&#x7EA7;: &#x4E00;&#x5E74;&#x4E00;&#x73ED;</span></span><br><span class="line"><span class="keyword">var</span> grade:<span class="type">Grade</span>? = <span class="type">Grade</span>(gradeName: <span class="string">&quot;&#x4E00;&#x5E74;&#x4E00;&#x73ED;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5F20;&#x4E09;&#x662F;&#x5728;&#x4E00;&#x5E74;&#x4E00;&#x73ED;</span></span><br><span class="line">student!.grade = grade</span><br><span class="line"><span class="comment">// &#x4E00;&#x5E74;&#x4E00;&#x73ED;&#x4E2D;&#x7684;&#x5B66;&#x751F;</span></span><br><span class="line">grade!.student = student</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8BBE;&#x7F6E;&#x4E3A;`nil`&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4EEC;&#x90FD;&#x662F;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x7684;</span></span><br><span class="line">student = <span class="literal">nil</span></span><br><span class="line">grade = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x4F46;&#x662F;Student&#x548C;Grade&#x7684;&#x6790;&#x6784;&#x5668;&#x90FD;&#x6CA1;&#x8C03;&#x7528;&#xFF0C;&#x8BF4;&#x660E;&#x5B83;&#x4EEC;&#x7684;&#x5B9E;&#x4F8B;&#x662F;&#x6CA1;&#x6709;&#x88AB;&#x91CA;&#x653E;</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x5F00;&#x59CB;&#xFF0C;&#x5B9E;&#x4F8B;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x90A3;&#x4E48;&#x6B64;&#x65F6;&#x5BF9;&#x5E94;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x90FD;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5F3A;&#x5F15;&#x7528;&#x6240;&#x6307;&#x5411;(&#x56FE;&#x4E2D;&#x5B9E;&#x7EBF;&#x5C31;&#x8868;&#x793A;&#x5F3A;&#x5F15;&#x7528;):<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/01.png" alt="01-&#x5B9E;&#x4F8B;&#x5316;&#x64CD;&#x4F5C;"><br>&#x4E4B;&#x540E;&#xFF0C;&#x662F;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;<code>student!.grade = grade</code>&#x548C;<code>grade!.student = student</code>&#xFF0C;&#x6B64;&#x65F6;:<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/02.png" alt="02-&#x8D4B;&#x503C;&#x64CD;&#x4F5C;"><br>&#x6700;&#x540E;&#xFF0C;&#x8BBE;&#x7F6E;<code>student = nil</code>&#x548C;<code>grade = nil</code>&#xFF0C;&#x6B64;&#x65F6;:<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/03.png" alt="03-&#x8BBE;&#x7F6E;&#x4E3A;`nil`&#x64CD;&#x4F5C;"><br>&#x4ECE;&#x4E0A;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;<code>Student</code>&#x548C;<code>Grade</code>&#x7684;&#x5B9E;&#x4F8B;&#x90FD;&#x662F;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x5373;&#x5B9E;&#x4F8B;&#x4E0D;&#x4F1A;&#x88AB;&#x91CA;&#x653E;&#x6389;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E5F;&#x5C31;&#x4F1A;&#x9020;&#x6210;&#x5185;&#x5B58;&#x7684;&#x6CC4;&#x6F0F;&#x3002;</p>
+<p><br></p>
+<h1 id="&#x56DB;&#x3001;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"><a href="#&#x56DB;&#x3001;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;" class="headerlink" title="&#x56DB;&#x3001;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"></a>&#x56DB;&#x3001;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</h1><hr>
+<p>&#x2003;swift&#x63D0;&#x4F9B;&#x4E86;&#x4E24;&#x79CD;&#x529E;&#x6CD5;&#x7528;&#x6765;&#x89E3;&#x51B3;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x95EE;&#x9898;:<em>&#x5F31;&#x5F15;&#x7528;</em>&#x548C;<em>&#x65E0;&#x4E3B;&#x5F15;&#x7528;</em>&#x3002;<br>&#x2003;&#x5F31;&#x5F15;&#x7528;&#x548C;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x5141;&#x8BB8;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x5F15;&#x7528;&#x548C;&#x53E6;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x800C;&#x4E0D;&#x662F;&#x4FDD;&#x6301;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x95EE;&#x9898;&#x3002;<br>&#x2003;&#x5BF9;&#x4E8E;&#x751F;&#x547D;&#x5468;&#x671F;&#x4E2D;&#x4F1A;&#x4E3A;<code>nil</code>&#x7684;&#x5B9E;&#x4F8B;&#x4F7F;&#x7528;&#x5F31;&#x5F15;&#x7528;&#x3002;&#x4F46;&#x5BF9;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x503C;&#x540E;&#x4E0D;&#x4F1A;&#x518D;&#x88AB;&#x8D4B;&#x503C;&#x4E3A;<code>nil</code>&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x3002;</p>
+<ul>
+<li><em>&#x5F31;&#x5F15;&#x7528;</em>&#xFF0C;&#x662F;&#x4E0D;&#x4F1A;&#x963B;&#x6B62;ARC&#x9500;&#x6BC1;&#x88AB;&#x5F15;&#x7528;&#x7684;&#x5B9E;&#x4F8B;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#x5F31;&#x5F15;&#x7528;&#x662F;&#x4E0D;&#x8BA1;&#x6570;&#x662F;&#x4E0D;&#x4F1A;&#x52A0;&#x4E00;&#x64CD;&#x4F5C;&#x7684;&#x3002;&#x5F53;&#x58F0;&#x660E;&#x5C5E;&#x6027;&#x6216;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A;<code>weak</code>&#x5173;&#x952E;&#x5B57;&#x8868;&#x660E;&#x4E00;&#x4E2A;&#x5F31;&#x5F15;&#x7528;&#x3002;<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x6CE8;: &#x4E0E;&#x4E0A;&#x9762;&#x4EE3;&#x7801;&#x4E00;&#x6837;&#xFF0C;&#x53EA;&#x662F;&#x5728;&#x5B9A;&#x4E49;student&#x5C5E;&#x6027;&#x65F6;&#xFF0C;&#x8FDB;&#x884C;&#x4E86;&#x5F31;&#x5316;&#x64CD;&#x4F5C;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Grade</span> </span>{</span><br><span class="line">    <span class="comment">// &#x54EA;&#x4E2A;&#x73ED;&#x7EA7;</span></span><br><span class="line">    <span class="keyword">let</span> gradeName:<span class="type">String</span></span><br><span class="line">    <span class="comment">// &#x6784;&#x9020;&#x5668;</span></span><br><span class="line">    <span class="keyword">init</span>(gradeName:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.gradeName = gradeName</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x73ED;&#x7EA7;&#x4E2D;&#x7684;&#x5B66;&#x751F;</span></span><br><span class="line">    <span class="comment">// var student:Student?</span></span><br><span class="line">    <span class="comment">// &#x5F31;&#x5F15;&#x7528;&#x64CD;&#x4F5C;&#xFF0C;&#x89E3;&#x51B3;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</span></span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> student:<span class="type">Student</span>?</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x6790;&#x6784;&#x5668;</span></span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x5B9E;&#x4F8B;&#x5C06;&#x4F1A;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(gradeName)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/04.png" alt="04-&#x5F31;&#x5F15;&#x7528;&#x64CD;&#x4F5C;"><br>&#x5F53;&#x8BBE;&#x7F6E;<code>student = nil</code>&#x548C;<code>grade = nil</code>&#x7684;&#x65F6;&#x5019;(&#x6CE8;&#x610F;&#x56FE;&#x4E2D;&#x6807;&#x6CE8;&#x7684;&#x5148;&#x540E;&#x987A;&#x5E8F;&#x3002;&#x53E6;&#x5916;&#x53EA;&#x8981;&#x5B9E;&#x4F8B;&#x6CA1;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x88AB;&#x91CA;&#x653E;):<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/05.png" alt="05-&#x5B9E;&#x4F8B;&#x91CA;&#x653E;&#x8FC7;&#x7A0B;"></p>
+<blockquote>
+<p>&#x6CE8;&#x610F;1: &#x5F31;&#x5F15;&#x7528;&#x5FC5;&#x987B;&#x88AB;&#x58F0;&#x660E;&#x4E3A;&#x53D8;&#x91CF;&#xFF0C;&#x8868;&#x660E;&#x5176;&#x503C;&#x80FD;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x88AB;&#x4FEE;&#x6539;&#xFF01;&#xFF01;&#xFF01;&#x53E6;&#x5916;&#xFF0C;&#x5F31;&#x5F15;&#x7528;&#x53EF;&#x4EE5;&#x6CA1;&#x6709;&#x503C;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x5FC5;&#x987B;&#x5C06;&#x5F31;&#x5F15;&#x7528;&#x58F0;&#x660E;&#x4E3A;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x3002;&#x800C;swift&#x4E2D;&#x4E5F;&#x662F;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x6765;&#x63CF;&#x8FF0;&#x53EF;&#x80FD;&#x6CA1;&#x6709;&#x503C;&#x7684;&#x7C7B;&#x578B;&#x3002;<br>&#x6CE8;&#x610F;2: &#x5728;&#x4F7F;&#x7528;&#x5783;&#x573E;&#x6536;&#x96C6;&#x7684;&#x7CFB;&#x7EDF;&#x91CC;&#xFF0C;&#x5F31;&#x6307;&#x9488;&#x6709;&#x65F6;&#x5019;&#x6765;&#x5B9E;&#x73B0;&#x7B80;&#x5355;&#x7684;&#x7F13;&#x51B2;&#x673A;&#x5236;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#x7684;&#x5BF9;&#x8C61;&#x53EA;&#x4F1A;&#x5728;&#x5185;&#x5B58;&#x538B;&#x529B;&#x89E6;&#x53D1;&#x5783;&#x573E;&#x6536;&#x96C6;&#x65F6;&#x624D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;&#x3002;&#x4F46;ARC&#x4E2D;&#xFF0C;&#x4E00;&#x65E6;&#x503C;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5F3A;&#x5F15;&#x7528;&#x88AB;&#x5220;&#x9664;&#xFF0C;&#x5C31;&#x4F1A;&#x88AB;&#x7ACB;&#x5373;&#x9500;&#x6BC1;&#xFF0C;&#x8FD9;&#x5BFC;&#x81F4;&#x5F31;&#x5F15;&#x7528;&#x5E76;&#x4E0D;&#x9002;&#x5408;&#x4E0A;&#x9762;&#x7684;&#x7528;&#x9014;&#x3002;</p>
+</blockquote>
+<ul>
+<li><em>&#x65E0;&#x4E3B;&#x5F15;&#x7528;</em>&#xFF0C;&#x4E0E;&#x5F31;&#x5F15;&#x7528;&#x7C7B;&#x4F3C;&#xFF0C;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x4E5F;&#x4E0D;&#x4F1A;&#x7262;&#x7262;&#x4FDD;&#x6301;&#x4F4F;&#x5F15;&#x7528;&#x7684;&#x5B9E;&#x4F8B;&#x3002;&#x4F46;&#x4E0E;&#x5F31;&#x5F15;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x6C38;&#x8FDC;&#x662F;&#x6709;&#x503C;&#x7684;&#xFF01;&#xFF01;&#xFF01;&#x56E0;&#x6B64;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x603B;&#x662F;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A;<em>&#x975E;&#x53EF;&#x9009;&#x7C7B;&#x578B;</em>&#x3002;&#x800C;&#x5728;&#x58F0;&#x660E;&#x5C5E;&#x6027;&#x6216;&#x53D8;&#x91CF;&#x65F6;&#xFF0C;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A;<code>unowned</code>&#x5173;&#x952E;&#x5B57;&#x6765;&#x8868;&#x793A;&#x662F;&#x4E00;&#x4E2A;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x3002;&#x7531;&#x4E8E;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x662F;&#x975E;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#xFF0C;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x518D;&#x4F7F;&#x7528;&#x5B83;&#x7684;&#x65F6;&#x5019;&#x5C06;&#x5B83;&#x5C55;&#x5F00;&#xFF0C;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x603B;&#x662F;&#x53EF;&#x4EE5;&#x88AB;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x3002;&#x4F46;ARC&#x65E0;&#x6CD5;&#x518D;&#x5B9E;&#x4F8B;&#x88AB;&#x5B9E;&#x4F8B;&#x9500;&#x6BC1;&#x540E;&#x5C06;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x8BBE;&#x7F6E;&#x4E3A;<code>nil</code>&#xFF0C;&#x56E0;&#x4E3A;&#x975E;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x4E0D;&#x5141;&#x8BB8;&#x88AB;&#x8D4B;&#x503C;&#x4E3A;<code>nil</code>&#x3002;<blockquote>
+<p>&#x6CE8;&#x610F;: &#x5982;&#x679C;&#x4F60;&#x8BD5;&#x56FE;&#x5728;&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1;&#x540E;&#xFF0C;&#x8BBF;&#x95EE;&#x8BE5;&#x5B9E;&#x4F8B;&#x7684;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#xFF0C;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x5D29;&#x6E83;&#x3002;&#x4F7F;&#x7528;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#xFF0C;&#x5FC5;&#x987B;&#x8981;&#x786E;&#x4FDD;&#x5F15;&#x7528;&#x59CB;&#x7EC8;&#x6307;&#x5411;&#x4E00;&#x4E2A;&#x672A;&#x9500;&#x6BC1;&#x7684;&#x5B9E;&#x4F8B;&#x3002;</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** &#x65E0;&#x4E3B;&#x5F15;&#x7528;</span><br><span class="line"> &#x4F8B;&#x5982;&#x94F6;&#x884C;&#x987E;&#x5BA2;Customer&#x548C;&#x4FE1;&#x7528;&#x5361;CreditCard&#xFF1B;</span><br><span class="line"> &#x4E00;&#x4E2A;&#x4EBA;&#x53EF;&#x4EE5;&#x6709;&#x6216;&#x6CA1;&#x6709;&#x4FE1;&#x7528;&#x5361;&#xFF0C;&#x4F46;&#x4E00;&#x5F20;&#x4FE1;&#x7528;&#x5361;&#x5FC5;&#x987B;&#x4E0E;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x5173;&#x8054;&#xFF1B;</span><br><span class="line"> */</span></span><br><span class="line"><span class="comment">// &#x94F6;&#x884C;&#x987E;&#x5BA2;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>{</span><br><span class="line">    <span class="comment">// &#x7528;&#x6237;&#x540D;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="comment">// &#x7528;&#x6237;&#x5BF9;&#x5E94;&#x7684;&#x4FE1;&#x7528;&#x5361;&#xFF0C;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x6709;&#x5361;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x6CA1;&#x6709;&#x5361;</span></span><br><span class="line">    <span class="keyword">var</span> card:<span class="type">CreditCard</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x94F6;&#x884C;&#x987E;&#x5BA2;-&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1; --- <span class="subst">\(<span class="keyword">self</span>.name)</span>&quot;</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x4FE1;&#x7528;&#x5361;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreditCard</span> </span>{</span><br><span class="line">    <span class="comment">// &#x5361;&#x53F7;</span></span><br><span class="line">    <span class="keyword">let</span> number:<span class="type">UInt64</span></span><br><span class="line">    <span class="comment">// &#x65E0;&#x4E3B;&#x5F15;&#x7528;&#xFF0C;&#x907F;&#x514D;&#x5FAA;&#x73AF;&#x5F15;&#x7528;(&#x975E;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#xFF0C;&#x4FE1;&#x7528;&#x5361;&#x5B9E;&#x4F8B;&#x5FC5;&#x987B;&#x4E0E;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x5173;&#x8054;)</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> customer:<span class="type">Customer</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(number:<span class="type">UInt64</span>, customer:<span class="type">Customer</span>) {</span><br><span class="line">        <span class="keyword">self</span>.number = number</span><br><span class="line">        <span class="keyword">self</span>.customer = customer</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&#x4FE1;&#x7528;&#x5361;-&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1; --- <span class="subst">\(<span class="keyword">self</span>.number)</span>&quot;</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x94F6;&#x884C;&#x5BA2;&#x6237;&#xFF0C;&#x5F20;&#x4E09;(&#x53EF;&#x9009;&#x7C7B;&#x578B;&#xFF0C;&#x662F;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E3A;`nil`)</span></span><br><span class="line"><span class="keyword">var</span> zhangsan:<span class="type">Customer</span>? = <span class="type">Customer</span>(name:<span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>);</span><br><span class="line"><span class="comment">// &#x5F20;&#x4E09;&#x7684;&#x4FE1;&#x7528;&#x5361;&#x3010;&#x6CE8;&#x610F;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#x5C06;&#x5361;&#x53F7;&#x4E0E;&#x5F20;&#x4E09;&#x5B9E;&#x4F8B;&#x4F20;&#x8FDB;&#x53BB;&#x3011;</span></span><br><span class="line">zhangsan!.card = <span class="type">CreditCard</span>(number: <span class="number">1234_5678_9101_1121</span>,customer: zhangsan!)</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8BBE;&#x7F6E;&#x4E3A;&#x7A7A;&#xFF0C;&#x5373;&#x65AD;&#x5F00;&#x5BF9;Customer&#x5B9E;&#x4F8B;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x4F1A;&#x6B63;&#x5E38;&#x91CA;&#x653E;</span></span><br><span class="line">zhangsan = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x94F6;&#x884C;&#x987E;&#x5BA2;-&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1; --- &#x5F20;&#x4E09;</span><br><span class="line">&#x4FE1;&#x7528;&#x5361;-&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1; --- <span class="number">1234567891011121</span></span><br></pre></td></tr></table></figure>
+<p>&#x94F6;&#x884C;&#x5BA2;&#x6237;&#x4E0E;&#x4FE1;&#x7528;&#x5361;&#x7ED1;&#x5B9A;&#x540E;&#xFF0C;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;:<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/06.png" alt="01-&#x987E;&#x5BA2;&#x4E0E;&#x4FE1;&#x7528;&#x5361;&#x4E4B;&#x95F4;&#x5173;&#x8054;"><br>&#x4E4B;&#x540E;&#xFF0C;&#x8BBE;&#x7F6E;<code>zhangsan = nil</code>&#xFF0C;&#x6B64;&#x65F6;Customer&#x5B9E;&#x4F8B;&#x5F20;&#x4E09;&#x6CA1;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x88AB;&#x91CA;&#x653E;&#x3002;&#x800C;Customer&#x5B9E;&#x4F8B;&#x5F20;&#x4E09;&#x91CA;&#x653E;&#x4EE5;&#x540E;&#xFF0C;CreditCard&#x5B9E;&#x4F8B;&#x4E5F;&#x5C31;&#x6CA1;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x4F1A;&#x88AB;&#x91CA;&#x653E;&#xFF0C;&#x5982;&#x56FE;&#x6240;&#x793A;:<br><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/07.png" alt="02-&#x5B9E;&#x4F8B;&#x91CA;&#x653E;&#x8FC7;&#x7A0B;"></p>
+<ul>
+<li>&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x4EE5;&#x53CA;&#x9690;&#x5F0F;&#x89E3;&#x6790;&#x53EF;&#x9009;&#x5C5E;&#x6027;&#x3002;<code>Student</code>&#x548C;<code>Grade</code>&#x793A;&#x4F8B;&#x4E2D;&#xFF0C;&#x4E24;&#x4E2A;&#x5C5E;&#x6027;&#x7684;&#x503C;&#x90FD;&#x5141;&#x8BB8;&#x4E3A;<code>nil</code>&#xFF0C;&#x5E76;&#x5B58;&#x5728;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x79CD;&#x573A;&#x666F;&#x6700;&#x9002;&#x5408;&#x5F31;&#x5F15;&#x7528;&#x89E3;&#x51B3;&#xFF1B;<code>Customer</code>&#x548C;<code>CreditCard</code>&#x793A;&#x4F8B;&#x4E2D;&#xFF0C;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x5141;&#x8BB8;&#x8BBE;&#x7F6E;&#x4E3A;<code>nil</code>&#xFF0C;&#x800C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x662F;&#x4E0D;&#x5141;&#x8BB8;&#x4E3A;<code>nil</code>&#xFF0C;&#x5E76;&#x5B58;&#x5728;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x79CD;&#x5E38;&#x89C1;&#x6700;&#x9002;&#x5408;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x89E3;&#x51B3;&#xFF1B;&#x800C;&#x5F53;&#x4E24;&#x4E2A;&#x5C5E;&#x6027;&#x90FD;&#x5FC5;&#x987B;&#x6709;&#x503C;&#xFF0C;&#x5E76;&#x521D;&#x59CB;&#x5316;&#x5B8C;&#x6210;&#x540E;&#x5C06;&#x90FD;&#x4E0D;&#x4F1A;&#x4E3A;<code>nil</code>&#xFF0C;&#x8FD9;&#x79CD;&#x573A;&#x666F;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x7C7B;&#x4F7F;&#x7528;&#x65E0;&#x4E3B;&#x5C5E;&#x6027;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7C7B;&#x4F7F;&#x7528;&#x9690;&#x5F0F;&#x89E3;&#x6790;&#x53EF;&#x9009;&#x5C5E;&#x6027;&#x6765;&#x89E3;&#x51B3;:<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> &#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x4EE5;&#x53CA;&#x9690;&#x5F0F;&#x89E3;&#x6790;&#x53EF;&#x9009;&#x5C5E;&#x6027;</span><br><span class="line"> Country&#x56FD;&#x5BB6;&#x548C;City&#x57CE;&#x5E02;&#xFF1B;</span><br><span class="line"> &#x6BCF;&#x4E2A;&#x56FD;&#x5BB6;&#x5FC5;&#x987B;&#x6709;&#x9996;&#x90FD;&#xFF0C;&#x800C;&#x6BCF;&#x4E2A;&#x57CE;&#x5E02;&#x5FC5;&#x987B;&#x5C5E;&#x4E8E;&#x4E00;&#x4E2A;&#x56FD;&#x5BB6;&#xFF1B;</span><br><span class="line"> */</span></span><br><span class="line"><span class="comment">// &#x56FD;&#x5BB6;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Country</span> </span>{</span><br><span class="line">    <span class="comment">// &#x56FD;&#x5BB6;&#x540D;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="comment">// &#x9996;&#x90FD;&#x57CE;&#x5E02;&#xFF0C;&#x662F;&#x9690;&#x5F0F;&#x89E3;&#x6790;&#x53EF;&#x9009;&#x7C7B;&#x578B;(&#x9ED8;&#x8BA4;&#x662F;&#x4E3A;&#x7A7A;&#xFF0C;&#x8FD9;&#x662F;&#x4E0D;&#x5C55;&#x5F00;&#x90FD;&#x53EF;&#x4F7F;&#x7528;)</span></span><br><span class="line">    <span class="keyword">var</span> capitalCity:<span class="type">City</span>!</span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>, capitalName:<span class="type">String</span>) {</span><br><span class="line">        <span class="comment">// &#x6307;&#x5B9A;&#x56FD;&#x5BB6;&#x540D;</span></span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="comment">// &#x6307;&#x5B9A;&#x9996;&#x90FD;&#x57CE;&#x5E02;&#xFF0C;&#x4F20;&#x5165;&#x57CE;&#x5E02;&#x540D;&#x4EE5;&#x53CA;&#x56FD;&#x5BB6;&#x5B9E;&#x4F8B;</span></span><br><span class="line">        <span class="keyword">self</span>.capitalCity = <span class="type">City</span>(name:capitalName, country: <span class="keyword">self</span>)</span><br><span class="line">    }  </span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Country&#x5B9E;&#x4F8B;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x57CE;&#x5E02;&#x7C7B;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">City</span> </span>{</span><br><span class="line">    <span class="comment">// &#x57CE;&#x5E02;&#x540D;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    <span class="comment">// &#x6240;&#x5C5E;&#x9996;&#x90FD;&#xFF0C;&#x662F;&#x65E0;&#x4E3B;&#x7C7B;&#x578B;</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> country:<span class="type">Country</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>, country:<span class="type">Country</span>) {</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.country = country</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;City&#x5B9E;&#x4F8B;&#x88AB;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>)</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">var</span> country = <span class="type">Country</span>(name: <span class="string">&quot;&#x4E2D;&#x56FD;&quot;</span>, capitalName: <span class="string">&quot;&#x5317;&#x4EAC;&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(country.name)</span> - <span class="subst">\(country.capitalCity.name)</span>&quot;</span>)</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x4E2D;&#x56FD; - &#x5317;&#x4EAC;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/08.png" alt="01-&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x4EE5;&#x53CA;&#x9690;&#x5F0F;&#x89E3;&#x6790;&#x53EF;&#x9009;&#x5C5E;&#x6027;"></p>
+<p><br></p>
+<h1 id="&#x4E94;&#x3001;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"><a href="#&#x4E94;&#x3001;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;" class="headerlink" title="&#x4E94;&#x3001;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"></a>&#x4E94;&#x3001;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</h1><hr>
+<p>&#x2003;&#x5728;&#x95ED;&#x5305;&#x8D4B;&#x503C;&#x7ED9;&#x7C7B;&#x5B9E;&#x4F8B;&#x7684;&#x67D0;&#x4E2A;&#x5C5E;&#x6027;&#x65F6;&#x4E5F;&#x4F1A;&#x6709;&#x5F3A;&#x5F15;&#x7528;&#x3002;&#x95ED;&#x5305;&#x4F53;&#x4E2D;&#x53EF;&#x80FD;&#x8BBF;&#x95EE;&#x5B9E;&#x4F8B;&#x7684;&#x67D0;&#x4E2A;&#x5C5E;&#x6027;&#xFF0C;&#x4F8B;&#x5982;<code>self.someProperty</code>&#xFF0C;&#x6216;&#x8005;&#x95ED;&#x5305;&#x8C03;&#x7528;&#x4E86;&#x5B9E;&#x4F8B;&#x4E2D;&#x7684;&#x67D0;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x4F8B;&#x5982;<code>self.someMethod</code>&#xFF0C;&#x8FD9;&#x90FD;&#x4F1A;&#x5BFC;&#x81F4;&#x95ED;&#x5305;&#x201D;&#x6355;&#x83B7;&#x201D;<code>self</code>,&#x4ECE;&#x800C;&#x4EA7;&#x751F;&#x4E86;&#x5FAA;&#x73AF;&#x5F15;&#x7528;:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span><br><span class="line"> &#x95ED;&#x5305;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</span><br><span class="line"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>{</span><br><span class="line">    <span class="comment">// &#x540D;&#x5B57;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x61D2;&#x52A0;&#x8F7D;&#xFF0C;&#x81EA;&#x6211;&#x4ECB;&#x7ECD;</span></span><br><span class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> speakStr:<span class="type">Void</span> -&gt; <span class="type">String</span> = {</span><br><span class="line">        <span class="comment">// &#x95ED;&#x5305;&#x4E2D;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#x5927;&#x5BB6;&#x597D;&#xFF0C;&#x6211;&#x53EB;<span class="subst">\(<span class="keyword">self</span>.name)</span>&quot;</span></span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person&#x5B9E;&#x4F8B;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x521D;&#x59CB;&#x5316;</span></span><br><span class="line"><span class="keyword">var</span> zhangsan:<span class="type">Person</span>? = <span class="type">Person</span>(name: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>)</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;</span></span><br><span class="line"><span class="built_in">print</span>(zhangsan!.speakStr())</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x65AD;&#x5F00;&#x5BF9;Person&#x5B9E;&#x4F8B;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4F46;&#x6B64;&#x65F6;Person&#x5B9E;&#x4F8B;&#x4E0D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;</span></span><br><span class="line">zhangsan = <span class="literal">nil</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/09.png" alt="01-&#x95ED;&#x5305;&#x4E2D;&#x7684;&#x5F3A;&#x5F15;&#x7528;"></p>
+<p><br></p>
+<h1 id="&#x516D;&#x3001;&#x89E3;&#x51B3;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"><a href="#&#x516D;&#x3001;&#x89E3;&#x51B3;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;" class="headerlink" title="&#x516D;&#x3001;&#x89E3;&#x51B3;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;"></a>&#x516D;&#x3001;&#x89E3;&#x51B3;&#x95ED;&#x5305;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;</h1><hr>
+<p>&#x2003;&#x5BF9;&#x4E8E;&#x95ED;&#x5305;&#x6240;&#x5F15;&#x8D77;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#xFF0C;&#x5728;swift&#x4E2D;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#xFF0C;&#x5373;&#x662F;<em>&#x95ED;&#x5305;&#x6355;&#x83B7;&#x5217;&#x8868;</em>&#x3002;&#x5728;&#x5B9A;&#x4E49;&#x95ED;&#x5305;&#x540C;&#x65F6;&#x5B9A;&#x4E49;&#x6355;&#x83B7;&#x5217;&#x8868;&#x4F5C;&#x4E3A;&#x95ED;&#x5305;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x95ED;&#x5305;&#x548C;&#x7C7B;&#x5B9E;&#x4F8B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x3002;&#x6355;&#x83B7;&#x5217;&#x8868;&#x5B9A;&#x4E49;&#x4E86;&#x95ED;&#x5305;&#x4F53;&#x5185;&#x6355;&#x83B7;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x89C4;&#x5219;&#xFF0C;&#x8FD9;&#x4E0E;&#x89E3;&#x51B3;&#x4E24;&#x4E2A;&#x7C7B;&#x4E4B;&#x95F4;&#x7684;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x4E00;&#x6837;&#xFF0C;&#x58F0;&#x660E;&#x6BCF;&#x4E2A;&#x6355;&#x83B7;&#x7684;&#x5F15;&#x7528;&#x4E3A;&#x5F31;&#x5F15;&#x7528;&#x6216;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5F3A;&#x5F15;&#x7528;&#x3002;<br>&#x2003;&#x5728;&#x95ED;&#x5305;&#x4E2D;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x53EA;&#x8981;&#x5728;&#x95ED;&#x5305;&#x4E2D;&#x8981;&#x4F7F;&#x7528;&#x672C;&#x5BF9;&#x8C61;&#x4E2D;&#x7684;&#x5C5E;&#x6027;&#x6216;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x8981;&#x4F7F;&#x7528;<code>self.someProperty</code>&#x6216;<code>self.someMethod()</code>&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;<code>someProperty</code>&#x6216;<code>someMethod()</code>&#x3002;<br>&#x2003;&#x5B9A;&#x4E49;&#x6355;&#x83B7;&#x5217;&#x8868;&#xFF0C;&#x5728;&#x6355;&#x83B7;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x9879;&#x90FD;&#x7531;&#x9700;&#x8981;&#x52A0;&#x4E0A;<code>weak</code>&#x6216;<code>unowned</code>&#x5173;&#x952E;&#x5B57;&#x3002;<br>&#x2003;&#x5728;&#x95ED;&#x5305;&#x548C;&#x6355;&#x83B7;&#x7684;&#x5B9E;&#x4F8B;&#x603B;&#x662F;&#x76F8;&#x4E92;&#x5F15;&#x7528;&#x65F6;&#x5E76;&#x4E14;&#x662F;&#x540C;&#x65F6;&#x9500;&#x6BC1;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x95ED;&#x5305;&#x5185;&#x7684;&#x6355;&#x83B7;&#x5B9A;&#x4E49;&#x4E3A;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x3002;<br>&#x2003;&#x800C;&#x5728;&#x88AB;&#x6355;&#x83B7;&#x7684;&#x5F15;&#x7528;&#x53EF;&#x80FD;&#x4F1A;&#x4E3A;<code>nil</code>&#x65F6;&#xFF0C;&#x5C06;&#x95ED;&#x5305;&#x5185;&#x7684;&#x6355;&#x83B7;&#x5B9A;&#x4E49;&#x4E3A;&#x5F31;&#x5F15;&#x7528;&#x3002;&#x5F31;&#x5F15;&#x7528;&#x603B;&#x662F;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#xFF0C;&#x5E76;&#x4E14;&#x5F53;&#x5F15;&#x7528;&#x7684;&#x5B9E;&#x4F8B;&#x88AB;&#x9500;&#x6BC1;&#x540E;&#xFF0C;&#x5F31;&#x5F15;&#x7528;&#x7684;&#x503C;&#x4F1A;&#x81EA;&#x52A8;&#x7F6E;&#x4E3A;<code>nil</code>&#x3002;<br>&#x2003;&#x5982;&#x679C;&#x662F;&#x88AB;&#x6355;&#x83B7;&#x7684;&#x5F15;&#x7528;&#x7EDD;&#x5BF9;&#x4E0D;&#x4F1A;&#x53D8;&#x4E3A;<code>nil</code>&#xFF0C;&#x5E94;&#x8BE5;&#x7528;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5F15;&#x7528;&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x95ED;&#x5305;&#x6709;&#x53C2;&#x6570;&#x5217;&#x8868;&#x548C;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x7684;&#x5B9A;&#x4E49;&#xFF0C;&#x628A;&#x6355;&#x83B7;&#x5217;&#x8868;&#x653E;&#x5728;&#x524D;&#x9762;</span></span><br><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> someClosure:(<span class="type">Int</span>, <span class="type">String</span>) -&gt; <span class="type">String</span> = {</span><br><span class="line">  [<span class="keyword">unowned</span> <span class="keyword">self</span>, <span class="keyword">weak</span> delegate = <span class="keyword">self</span>.delegate!] (index:<span class="type">Int</span> ,stringToProcess:<span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// &#x95ED;&#x5305;&#x4E2D;&#x5BF9;&#x5E94;&#x64CD;&#x4F5C;</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x95ED;&#x5305;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x53C2;&#x6570;&#x5217;&#x8868;&#x6216;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#xFF0C;&#x5373;&#x4F1A;&#x901A;&#x8FC7;&#x4E0A;&#x4E0B;&#x6587;&#x63A8;&#x65AD;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x628A;&#x6355;&#x83B7;&#x5217;&#x8868;&#x548C;&#x5173;&#x952E;&#x5B57;`in`&#x653E;&#x5728;&#x95ED;&#x5305;&#x6700;&#x5F00;&#x59CB;&#x5730;&#x65B9;</span></span><br><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> someClosure:<span class="type">Void</span> -&gt; <span class="type">String</span> = {</span><br><span class="line">  [<span class="keyword">unowned</span> <span class="keyword">self</span>, <span class="keyword">weak</span> delegate = <span class="keyword">self</span>.delegate!] <span class="keyword">in</span> </span><br><span class="line">    <span class="comment">// &#x95ED;&#x5305;&#x4E2D;&#x5BF9;&#x5E94;&#x64CD;&#x4F5C;</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>{</span><br><span class="line">    <span class="comment">// &#x540D;&#x5B57;</span></span><br><span class="line">    <span class="keyword">let</span> name:<span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// &#x61D2;&#x52A0;&#x8F7D;&#xFF0C;&#x81EA;&#x6211;&#x4ECB;&#x7ECD;</span></span><br><span class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> speakStr:<span class="type">Void</span> -&gt; <span class="type">String</span> = {</span><br><span class="line">        <span class="comment">// &#x89E3;&#x51B3;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#xFF0C;&#x5373;&#x8868;&#x793A;&quot;&#x7528;&#x65E0;&#x4E3B;&#x5F15;&#x7528;&#x800C;&#x4E0D;&#x662F;&#x5F3A;&#x5F15;&#x7528;&#x6765;&#x6355;&#x83B7;self&quot;</span></span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="keyword">in</span></span><br><span class="line">        <span class="comment">// &#x95ED;&#x5305;&#x4E2D;</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#x5927;&#x5BB6;&#x597D;&#xFF0C;&#x6211;&#x53EB;<span class="subst">\(<span class="keyword">self</span>.name)</span>&quot;</span></span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>) {</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">deinit</span> {</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Person&#x5B9E;&#x4F8B;&#x91CA;&#x653E; --- <span class="subst">\(name)</span>&quot;</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x521D;&#x59CB;&#x5316;</span></span><br><span class="line"><span class="keyword">var</span> zhangsan:<span class="type">Person</span>? = <span class="type">Person</span>(name: <span class="string">&quot;&#x5F20;&#x4E09;&quot;</span>)</span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;</span></span><br><span class="line"><span class="built_in">print</span>(zhangsan!.speakStr())</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x65AD;&#x5F00;&#x5BF9;Person&#x5B9E;&#x4F8B;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4F46;&#x6B64;&#x65F6;Person&#x5B9E;&#x4F8B;&#x4E0D;&#x4F1A;&#x88AB;&#x9500;&#x6BC1;</span></span><br><span class="line">zhangsan = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2016/06/29/14-Swift&#x81EA;&#x52A8;&#x5F15;&#x7528;&#x8BA1;&#x6570;-&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;/10.png" alt="01-&#x95ED;&#x5305;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x89E3;&#x51B3;"></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br></h2><h1 id="&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;"><a href="#&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;" class="headerlink" title="&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;"></a>&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;</h1>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/28/13-Swift析构过程-Deinitialization/" rel="next" title="13-Swift析构过程(Deinitialization)">
+                <i class="fa fa-chevron-left"></i> 13-Swift析构过程(Deinitialization)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/29/14-Swift自动引用计数-循环引用的解决/"
+           data-title="14-Swift自动引用计数(循环引用的解决)" data-url="http://jarvan3.com/2016/06/29/14-Swift自动引用计数-循环引用的解决/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/head.png"
+               alt="EndEvent" />
+          <p class="site-author-name" itemprop="name">EndEvent</p>
+          <p class="site-description motion-element" itemprop="description">hello Swift .</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、自动引用计数的工作机制"><span class="nav-number">1.</span> <span class="nav-text">一、自动引用计数的工作机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、自动引用计数实践"><span class="nav-number">2.</span> <span class="nav-text">二、自动引用计数实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、类实例之间引起的循环引用"><span class="nav-number">3.</span> <span class="nav-text">三、类实例之间引起的循环引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、解决实例之间的循环引用"><span class="nav-number">4.</span> <span class="nav-text">四、解决实例之间的循环引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、闭包引起的循环引用"><span class="nav-number">5.</span> <span class="nav-text">五、闭包引起的循环引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、解决闭包引起的循环引用"><span class="nav-number">6.</span> <span class="nav-text">六、解决闭包引起的循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">6.1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注：xcode7-3环境"><span class="nav-number">7.</span> <span class="nav-text">注：xcode7.3环境</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EndEvent</span>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jarvan3"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("fenbO1sqMAMWYKT6mNoOTxY9-gzGzoHsz", "wkDESGajreyO0DhN4x94mKfI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
