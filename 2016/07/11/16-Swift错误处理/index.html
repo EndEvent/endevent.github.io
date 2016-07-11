@@ -1,0 +1,746 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x2003;&amp;#x9519;&amp;#x8BEF;&amp;#x5904;&amp;#x7406;&amp;#x662F;&amp;#x54CD;&amp;#x5E94;&amp;#x9519;&amp;#x8BEF;&amp;#x4EE5;&amp;#x53CA;&amp;#x4ECE;&amp;#x9519;&amp;#x8BEF;&amp;#x4E2D;&amp;#x6062;&amp;#x590D;&amp;#x7684;&amp;#x8FC7;&amp;#x7A0B;&amp;#x3002;swift&amp;#x63D0;&amp;#x4F9B;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="16-Swift错误处理">
+<meta property="og:url" content="http://jarvan3.com/2016/07/11/16-Swift错误处理/index.html">
+<meta property="og:site_name" content="EndEvent">
+<meta property="og:description" content="&amp;#x2003;&amp;#x9519;&amp;#x8BEF;&amp;#x5904;&amp;#x7406;&amp;#x662F;&amp;#x54CD;&amp;#x5E94;&amp;#x9519;&amp;#x8BEF;&amp;#x4EE5;&amp;#x53CA;&amp;#x4ECE;&amp;#x9519;&amp;#x8BEF;&amp;#x4E2D;&amp;#x6062;&amp;#x590D;&amp;#x7684;&amp;#x8FC7;&amp;#x7A0B;&amp;#x3002;swift&amp;#x63D0;&amp;#x4F9B;&amp;#x">
+<meta property="og:updated_time" content="2016-07-11T10:11:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="16-Swift错误处理">
+<meta name="twitter:description" content="&amp;#x2003;&amp;#x9519;&amp;#x8BEF;&amp;#x5904;&amp;#x7406;&amp;#x662F;&amp;#x54CD;&amp;#x5E94;&amp;#x9519;&amp;#x8BEF;&amp;#x4EE5;&amp;#x53CA;&amp;#x4ECE;&amp;#x9519;&amp;#x8BEF;&amp;#x4E2D;&amp;#x6062;&amp;#x590D;&amp;#x7684;&amp;#x8FC7;&amp;#x7A0B;&amp;#x3002;swift&amp;#x63D0;&amp;#x4F9B;&amp;#x">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6296650805936129000,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://jarvan3.com/2016/07/11/16-Swift错误处理/"/>
+
+  <title> 16-Swift错误处理 | EndEvent </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2dcf77ca7e928ec83b9e3c1bc6a0b9f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EndEvent</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                16-Swift错误处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-11T18:10:41+08:00" content="2016-07-11">
+              2016-07-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index">
+                    <span itemprop="name">Swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/11/16-Swift错误处理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/11/16-Swift错误处理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/11/16-Swift错误处理/" class="leancloud_visitors" data-flag-title="16-Swift错误处理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x2003;<em>&#x9519;&#x8BEF;&#x5904;&#x7406;</em>&#x662F;&#x54CD;&#x5E94;&#x9519;&#x8BEF;&#x4EE5;&#x53CA;&#x4ECE;&#x9519;&#x8BEF;&#x4E2D;&#x6062;&#x590D;&#x7684;&#x8FC7;&#x7A0B;&#x3002;swift&#x63D0;&#x4F9B;&#x4E86;&#x5728;&#x8FD0;&#x884C;&#x5BF9;&#x53EF;&#x6062;&#x590D;&#x9519;&#x8BEF;&#x629B;&#x51FA;&#x3001;&#x6355;&#x83B7;&#x3001;&#x4F20;&#x9001;&#x548C;&#x64CD;&#x4F5C;&#x7684;&#x9AD8;&#x7EA7;&#x652F;&#x6301;(&#x9519;&#x8BEF;&#x5904;&#x7406;&#x53C8;&#x79F0;&#x4E4B;&#x4E3A;&#x5F02;&#x5E38;&#x5904;&#x7406;)&#x3002;<br>&#x2003;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;&#x5E76;&#x4E0D;&#x80FD;&#x603B;&#x662F;&#x4FDD;&#x8BC1;&#x6267;&#x884C;&#x6240;&#x6709;&#x4EE3;&#x7801;&#x90FD;&#x53EF;&#x4EE5;&#x6267;&#x884C;&#x6216;&#x603B;&#x4F1A;&#x4EA7;&#x751F;&#x51FA;&#x6709;&#x7528;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x7528;&#x6765;&#x8868;&#x793A;&#x503C;&#x53EF;&#x80FD;&#x4E3A;&#x7A7A;&#xFF0C;&#x4F46;&#x5F53;&#x6267;&#x884C;&#x5931;&#x8D25;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x901A;&#x5E38;&#x8981;&#x53BB;&#x4E86;&#x89E3;&#x6B64;&#x6B21;&#x5931;&#x8D25;&#x662F;&#x7531;&#x4EC0;&#x4E48;&#x5F15;&#x8D77;&#x7684;&#xFF0C;&#x4EE3;&#x7801;&#x5C31;&#x53EF;&#x4EE5;&#x505A;&#x51FA;&#x4E0E;&#x4E4B;&#x5BF9;&#x5E94;&#x7684;&#x53CD;&#x5E94;&#x3002;<br><a id="more"></a><br>&#x2003;&#x4F8B;&#x5982;&#xFF0C;&#x5BF9;&#x78C1;&#x76D8;&#x4E0A;&#x7684;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x8BFB;&#x53D6;&#x64CD;&#x4F5C;&#xFF0C;&#x8BE5;&#x4EFB;&#x52A1;&#x4F1A;&#x6709;&#x591A;&#x79CD;&#x53EF;&#x80FD;&#x5931;&#x8D25;&#x7684;&#x60C5;&#x5F62;&#xFF0C;&#x5305;&#x62EC;&#x6307;&#x5B9A;&#x8DEF;&#x5F84;&#x4E0B;&#x6587;&#x4EF6;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x6587;&#x4EF6;&#x6CA1;&#x6709;&#x53EF;&#x8BFB;&#x6743;&#x9650;&#xFF0C;&#x6216;&#x6587;&#x4EF6;&#x7684;&#x7F16;&#x7801;&#x683C;&#x5F0F;&#x4E0D;&#x517C;&#x5BB9;&#x3002;&#x5177;&#x4F53;&#x533A;&#x5206;&#x8FD9;&#x4E9B;&#x9519;&#x8BEF;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x7A0B;&#x5E8F;&#x89E3;&#x51B3;&#x5E76;&#x5904;&#x7406;&#x5BF9;&#x5E94;&#x7684;&#x9519;&#x8BEF;&#xFF0C;&#x89E3;&#x51B3;&#x4E0D;&#x4E86;&#x7684;&#x9519;&#x8BEF;&#x5373;&#x53EF;&#x4EE5;&#x62A5;&#x544A;&#x7ED9;&#x7528;&#x4E8E;&#x3002;</p>
+<p><br></p>
+<h1 id="&#x4E00;&#x3001;&#x8868;&#x793A;&#x5E76;&#x629B;&#x51FA;&#x9519;&#x8BEF;"><a href="#&#x4E00;&#x3001;&#x8868;&#x793A;&#x5E76;&#x629B;&#x51FA;&#x9519;&#x8BEF;" class="headerlink" title="&#x4E00;&#x3001;&#x8868;&#x793A;&#x5E76;&#x629B;&#x51FA;&#x9519;&#x8BEF;"></a>&#x4E00;&#x3001;&#x8868;&#x793A;&#x5E76;&#x629B;&#x51FA;&#x9519;&#x8BEF;</h1><hr>
+<p>&#x2003;&#x5728;swift&#x4E2D;&#xFF0C;&#x9519;&#x8BEF;&#x8981;&#x9075;&#x5FAA;<code>ErrorType</code>&#x534F;&#x8BAE;&#x7C7B;&#x578B;&#x7684;&#x503C;&#x6765;&#x8868;&#x793A;&#x3002;&#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x8868;&#x793A;&#x4E00;&#x79CD;&#x53EF;&#x4EE5;&#x7528;&#x505A;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x7684;&#x7C7B;&#x578B;&#x3002;swift&#x7684;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x7279;&#x522B;&#x9002;&#x5408;&#x4E8E;&#x521B;&#x5EFA;&#x4E00;&#x7EC4;&#x76F8;&#x5173;&#x9519;&#x8BEF;&#xFF0C;&#x800C;&#x679A;&#x4E3E;&#x7684;&#x5173;&#x8054;&#x503C;&#x8FD8;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x989D;&#x5916;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x8868;&#x793A;&#x9519;&#x8BEF;&#x60C5;&#x5F62;&#x7684;&#x6027;&#x8D28;&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x4F8B;&#x5982;&#x53BB;&#x5065;&#x8EAB;&#x623F;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x5F71;&#x54CD;&#x53BB;&#x5065;&#x8EAB;&#x623F;&#x7684;&#x60C5;&#x5F62;</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">myError</span>:<span class="title">ErrorType</span> </span>{</span><br><span class="line">	<span class="keyword">case</span> noPower    <span class="comment">// &#x6CA1;&#x4F53;&#x529B;</span></span><br><span class="line">	<span class="keyword">case</span> noTime      <span class="comment">// &#x6CA1;&#x65F6;&#x95F4;</span></span><br><span class="line">	<span class="keyword">case</span> noMachine <span class="comment">// &#x6CA1;&#x5668;&#x68B0;</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h1 id="&#x4E8C;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;"><a href="#&#x4E8C;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;" class="headerlink" title="&#x4E8C;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;"></a>&#x4E8C;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;</h1><hr>
+<p>&#x2003;&#x5728;swift&#x4E2D;&#x6709;4&#x79CD;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x65B9;&#x5F0F;: &#x628A;&#x51FD;&#x6570;&#x629B;&#x51FA;&#x7684;&#x9519;&#x8BEF;&#x4F20;&#x9012;&#x7ED9;&#x8C03;&#x7528;&#x6B64;&#x51FD;&#x6570;&#x7684;&#x4EE3;&#x7801;&#x3001;&#x7528;<code>do-catch</code>&#x8BED;&#x53E5;&#x5904;&#x7406;&#x9519;&#x8BEF;&#x3001;&#x5C06;&#x9519;&#x8BEF;&#x4F5C;&#x4E3A;&#x53EF;&#x9009;&#x7C7B;&#x578B;&#x5904;&#x7406;&#x3001;&#x76F4;&#x63A5;&#x65AD;&#x8A00;&#x6B64;&#x9519;&#x8BEF;&#x6839;&#x672C;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x3002;</p>
+<ul>
+<li>&#x7528;throwing&#x51FD;&#x6570;&#x4F20;&#x9012;&#x9519;&#x8BEF;&#x3002;&#x7528;<code>thows</code>&#x5173;&#x952E;&#x5B57;&#x6765;&#x6807;&#x8BC6;&#x4E00;&#x4E2A;&#x53EF;&#x629B;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#x51FD;&#x6570;&#x3001;&#x65B9;&#x6CD5;&#x6216;&#x6784;&#x9020;&#x5668;&#x3002;&#x5728;&#x51FD;&#x6570;&#x58F0;&#x660E;&#x7684;&#x53C2;&#x6570;&#x5217;&#x8868;&#x4E4B;&#x540E;&#x52A0;&#x4E0A;<code>throws</code>&#xFF0C;&#x5982;&#x679C;&#x51FD;&#x6570;&#x662F;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#xFF0C;<code>throws</code>&#x5173;&#x952E;&#x5B57;&#x9700;&#x8981;&#x5378;&#x8F7D;&#x7BAD;&#x5934;<code>-&gt;</code>&#x7684;&#x524D;&#x9762;:</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">myError</span>:<span class="title">ErrorType</span> </span>{</span><br><span class="line">	<span class="keyword">case</span> noPower    <span class="comment">// &#x6CA1;&#x4F53;&#x529B;</span></span><br><span class="line">	<span class="keyword">case</span> noTime      <span class="comment">// &#x6CA1;&#x65F6;&#x95F4;</span></span><br><span class="line">	<span class="keyword">case</span> noMachine <span class="comment">// &#x6CA1;&#x5668;&#x68B0;</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x629B;&#x51FA;&#x5F02;&#x5E38;(throwing&#x51FD;&#x6570;)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">checkKeepFit</span><span class="params">(power:Int, time:Int, machine:Int)</span></span> <span class="keyword">throws</span> {</span><br><span class="line">	<span class="comment">// guard&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x82E5;&#x5B88;&#x536B;&#x6761;&#x4EF6;&#x4E3A;&#x4E0D;&#x4E3A;&#x771F;&#xFF0C;&#x5373;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;&#x7C7B;&#x4F3C;if&#x8BED;&#x53E5;&#xFF0C;&#x4F46;&#x4E0D;&#x662F;if&#xFF0C;guard&#x53EA;&#x80FD;&#x7528;&#x5728;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x4E2D;</span></span><br><span class="line">	<span class="comment">// throws &#x8868;&#x793A;&#x8BE5;&#x51FD;&#x6570;&#x53EF;&#x80FD;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x653E;&#x5728;&#x8FD4;&#x56DE;&#x503C;&#x524D;&#x9762;</span></span><br><span class="line">	<span class="comment">// throw  &#x8868;&#x793A;&#x67D0;&#x4E2A;&#x6761;&#x4EF6;&#x4E0D;&#x7B26;&#x5408;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x629B;&#x51FA;&#x5F02;&#x5E38;</span></span><br><span class="line">	<span class="keyword">guard</span> power &gt; <span class="number">0</span> <span class="keyword">else</span> {</span><br><span class="line">		<span class="keyword">throw</span> <span class="type">MyError</span>.noPower</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">guard</span> time &gt; <span class="number">0</span> <span class="keyword">else</span> {</span><br><span class="line">		<span class="keyword">throw</span> <span class="type">MyError</span>.noTime</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">guard</span> machine &gt; <span class="number">0</span> <span class="keyword">else</span> {</span><br><span class="line">		<span class="keyword">throw</span> <span class="type">MyError</span>.noMachine</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8C03;&#x7528;checkKeepFit&#x51FD;&#x6570;(&#x5373;&#x5728;&#x6B64;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x5F02;&#x5E38;)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">goToKeepFit</span><span class="params">(power:Int, time:Int, machine:Int)</span></span> {</span><br><span class="line">	<span class="comment">/**  &#x5F02;&#x5E38;&#x7684;&#x5904;&#x7406;</span><br><span class="line">	try!&#x548C;try?: &#x7528;&#x4E8E;&#x6807;&#x8BB0;&#x4E00;&#x4E2A;&#x88AB;&#x8C03;&#x7528;&#x7684;&#x629B;&#x51FA;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F60;&#x7B49;&#x4E8E;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#x8FD9;&#x4E2A;&#x9519;&#x8BEF;&#x6C38;&#x8FDC;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#xFF0C;&#x5E76;&#x4E14;&#x4F60;&#x4E5F;&#x4E0D;&#x9700;&#x8981;&#x6355;&#x83B7;&#x5B83;&#x3002;</span><br><span class="line">	try!: &#x5982;&#x679C;&#x8BE5;&#x8BED;&#x53E5;&#x672C;&#x8EAB;&#x4EA7;&#x751F;&#x9519;&#x8BEF;(error)&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F1A;&#x81EA;&#x52A8;&#x505C;&#x6B62;&#x6267;&#x884C;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x5C31;&#x8981;&#x5F00;&#x59CB;&#x8C03;&#x8BD5;&#x4E86;&#xFF1B;</span><br><span class="line">	try?: &#x5982;&#x679C;&#x8BE5;&#x8BED;&#x53E5;&#x672C;&#x8EAB;&#x4EA7;&#x751F;&#x4E86;&#x9519;&#x8BEF;(error)&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E5F;&#x4E0D;&#x4F1A;&#x505C;&#x6B62;&#x6267;&#x884C;&#xFF1B;</span><br><span class="line">	*/</span></span><br><span class="line">	<span class="keyword">try</span>? checkKeepFit(power, time: time, machine: machine)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// &#x5982;&#x679C;&#x4E0A;&#x9762;&#x4F7F;&#x7528;try!&#xFF0C;&#x90A3;&#x4E48;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F1A;&#x62A5;&#x9519;</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;---------&quot;</span>)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x51FD;&#x6570;&#x8C03;&#x7528;</span></span><br><span class="line">goToKeepFit(<span class="number">0</span>, time: <span class="number">1</span>, machine: <span class="number">1</span>)</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">---------</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x7528;<code>do-catch</code>&#x5904;&#x7406;&#x9519;&#x8BEF;&#x3002;&#x5373;&#x7528;<code>do-catch</code>&#x8BED;&#x53E5;&#x8FD0;&#x884C;&#x4E00;&#x6BB5;&#x95ED;&#x5305;&#x4EE3;&#x7801;&#x6765;&#x505A;&#x9519;&#x8BEF;&#x5904;&#x7406;&#xFF0C;&#x5982;&#x679C;<code>do</code>&#x8BED;&#x53E5;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x629B;&#x51FA;&#x4E86;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#xFF0C;&#x5219;&#x8FD9;&#x4E2A;&#x9519;&#x8BEF;&#x4F1A;&#x4E0E;<code>catch</code>&#x8BED;&#x53E5;&#x505A;&#x5339;&#x914D;&#x6765;&#x51B3;&#x5B9A;&#x54EA;&#x6761;&#x8BED;&#x53E5;&#x5904;&#x7406;:</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x8C03;&#x7528;checkKeepFit&#x51FD;&#x6570;(&#x5373;&#x5728;&#x6B64;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x5F02;&#x5E38;)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">goToKeepFit</span><span class="params">(power:Int, time:Int, machine:Int)</span></span> {</span><br><span class="line">	<span class="comment">// try &#x6355;&#x83B7;&#x5F02;&#x5E38;</span></span><br><span class="line">	<span class="keyword">do</span> {</span><br><span class="line">		<span class="keyword">try</span> checkKeepFit(power, time: time, machine: machine);</span><br><span class="line">	} <span class="keyword">catch</span> <span class="type">MyError</span>.noPower {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#x6CA1;&#x6709;&#x4F53;&#x529B;&quot;</span>);</span><br><span class="line">	} <span class="keyword">catch</span> <span class="type">MyError</span>.noTime {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#x6CA1;&#x6709;&#x65F6;&#x95F4;&quot;</span>);</span><br><span class="line">	} <span class="keyword">catch</span> <span class="type">MyError</span>.noMachine {</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#x6CA1;&#x6709;&#x5668;&#x6750;&quot;</span>);</span><br><span class="line">	} <span class="keyword">catch</span> {   <span class="comment">// &#x4E0D;&#x80FD;&#x5C11;&#x8FD9;&#x4E2A;&#xFF0C;&#x5982;&#x679C;&#x7F3A;&#x5C11;&#xFF0C;&#x90A3;&#x4E48;&#x4E0A;&#x9762;try&#x4F1A;&#x51FA;&#x9519;!!!</span></span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;&#x672A;&#x77E5;&#x5F02;&#x5E38;&quot;</span>);</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">goToKeepFit(<span class="number">0</span>, time: <span class="number">1</span>, machine: <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line">&#x6CA1;&#x6709;&#x4F53;&#x529B;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x5C06;&#x9519;&#x8BEF;&#x8F6C;&#x6362;&#x6210;&#x53EF;&#x9009;&#x503C;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>try?</code>&#x901A;&#x8FC7;&#x5C06;&#x5176;&#x8F6C;&#x6362;&#x6210;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x503C;&#x6765;&#x5904;&#x7406;&#x9519;&#x8BEF;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x8BC4;&#x4F30;<code>try?</code>&#x8868;&#x8FBE;&#x5F0F;&#x65F6;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x88AB;&#x629B;&#x51FA;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x5C31;&#x662F;<code>nil</code>&#xFF1A;</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">MyError</span>:<span class="title">ErrorType</span> </span>{</span><br><span class="line">	<span class="comment">// &#x8D1F;&#x6570;</span></span><br><span class="line">	<span class="keyword">case</span> negativeNumer</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5224;&#x65AD;&#x662F;&#x5426;&#x4E3A;&#x6B63;&#x6570;</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">isPlus</span><span class="params">(a:Int)</span></span> <span class="keyword">throws</span> -&gt; <span class="type">Int</span> {</span><br><span class="line">	<span class="comment">// &#x5982;&#x679C;a&#x5927;&#x4E8E;0&#xFF0C;&#x5219;&#x7A0B;&#x5E8F;&#x7EE7;&#x7EED;&#x5411;&#x4E0B;&#x6267;&#x884C;  </span></span><br><span class="line">	<span class="comment">// &#x5426;&#x5219;&#xFF0C;&#x5C31;&#x4F1A;&#x662F;&#x629B;&#x51FA;&#x5F02;&#x5E38;</span></span><br><span class="line">	<span class="keyword">guard</span> a &gt; <span class="number">0</span> <span class="keyword">else</span> {  </span><br><span class="line">		<span class="keyword">throw</span> <span class="type">MyError</span>.negativeNumer</span><br><span class="line">	}</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> a</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5982;&#x679C;`isPlus`&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x90A3;&#x4E48;x&#x503C;&#x5C31;&#x662F;&#x4E3A;`nil`</span></span><br><span class="line"><span class="comment">// &#x5426;&#x5219;&#x5C31;&#x662F;&#x8BE5;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;</span></span><br><span class="line"><span class="keyword">let</span> x = <span class="keyword">try</span>? isPlus(<span class="number">10</span>)</span><br><span class="line"><span class="comment">// &#x6CE8;&#x610F;: x&#x81EA;&#x52A8;&#x63A8;&#x65AD;&#x662F;&#x4E3A;&#x53EF;&#x9009;&#x7C7B;&#x578B;</span></span><br><span class="line"><span class="built_in">print</span>(x!)</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8FD9;&#x91CC;&#x5C31;&#x662F;&#x4FDD;&#x8BC1;y&#x80AF;&#x5B9A;&#x5C31;&#x662F;&#x4E0D;&#x4E3A;&#x8D1F;&#x6570;</span></span><br><span class="line"><span class="keyword">let</span> y:<span class="type">Int</span></span><br><span class="line"><span class="keyword">do</span> {</span><br><span class="line">	y = <span class="keyword">try</span> isPlus(-<span class="number">1</span>)</span><br><span class="line">} <span class="keyword">catch</span> {</span><br><span class="line">	y = <span class="number">0</span></span><br><span class="line">}</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line">&#x8F93;&#x51FA;&#x7ED3;&#x679C;:</span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x4F7F;&#x9519;&#x8BEF;&#x4F20;&#x9012;&#x5931;&#x8D25;&#x3002;&#x5F53;&#x77E5;&#x9053;&#x67D0;&#x4E2A;<code>throwing&#x51FD;&#x6570;</code>&#x5728;&#x5B9E;&#x9645;&#x8FD0;&#x884C;&#x4E2D;&#x662F;&#x4E0D;&#x4F1A;&#x629B;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x8868;&#x8FBE;&#x5F0F;&#x524D;&#x9762;&#x6DFB;&#x52A0;<code>try!</code>&#x6765;&#x4F7F;&#x9519;&#x8BEF;&#x4F20;&#x9012;&#x5931;&#x8D25;&#xFF0C;&#x4F46;&#x5B9E;&#x9645;&#x4E0A;&#x629B;&#x51FA;&#x4E86;&#x9519;&#x8BEF;&#xFF0C;&#x5C31;&#x4F1A;&#x5F97;&#x5230;&#x8FD0;&#x884C;&#x65F6;&#x9519;&#x8BEF;:</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x4F8B;&#x5982;&#x4F7F;&#x7528;`loadImage(<span class="number">_</span>:)`&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x5373;&#x662F;&#x4ECE;&#x7ED9;&#x5B9A;&#x8DEF;&#x5F84;&#x4E2D;&#x52A0;&#x8F7D;&#x56FE;&#x7247;&#x8D44;&#x6E90;&#xFF0C;&#x5982;&#x679C;&#x56FE;&#x7247;&#x4E0D;&#x80FD;&#x88AB;&#x52A0;&#x8F7D;&#x5219;&#x4F1A;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x3002;&#x800C;&#x56FE;&#x7247;&#x548C;&#x5E94;&#x7528;&#x662F;&#x7ED1;&#x5B9A;&#x5728;&#x4E00;&#x8D77;&#x7684;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x65F6;&#x4E0D;&#x4F1A;&#x6709;&#x9519;&#x8BEF;&#x88AB;&#x629B;&#x51FA;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x8BA9;&#x9519;&#x8BEF;&#x4F20;&#x9012;&#x5931;&#x8D25;</span><br><span class="line"><span class="comment">// &#x8BE5;&#x56FE;&#x7247;&#x5730;&#x5740;&#x662F;&#x865A;&#x62DF;&#x7684;</span></span><br><span class="line"><span class="keyword">let</span> photo = <span class="keyword">try</span>! loadImage(<span class="string">&quot;./User/EndEvent/head.png&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="&#x4E09;&#x3001;&#x6307;&#x5B9A;&#x6E05;&#x7406;&#x64CD;&#x4F5C;"><a href="#&#x4E09;&#x3001;&#x6307;&#x5B9A;&#x6E05;&#x7406;&#x64CD;&#x4F5C;" class="headerlink" title="&#x4E09;&#x3001;&#x6307;&#x5B9A;&#x6E05;&#x7406;&#x64CD;&#x4F5C;"></a>&#x4E09;&#x3001;&#x6307;&#x5B9A;&#x6E05;&#x7406;&#x64CD;&#x4F5C;</h1><hr>
+<p>&#x2003;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>defer</code>&#x8BED;&#x53E5;&#x5728;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5230;&#x8981;&#x79BB;&#x5F00;&#x5F53;&#x524D;&#x4EE3;&#x7801;&#x6BB5;&#x4E4B;&#x524D;&#xFF0C;&#x518D;&#x53BB;&#x6267;&#x884C;&#x4E00;&#x6BB5;&#x4EE3;&#x7801;&#x3002;&#x8BE5;&#x4EE3;&#x7801;&#x80FD;&#x591F;&#x6267;&#x884C;&#x5FC5;&#x8981;&#x6E05;&#x7406;&#x64CD;&#x4F5C;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;&#x4EE5;&#x4F55;&#x79CD;&#x65B9;&#x5F0F;&#x79BB;&#x5F00;&#x5F53;&#x524D;&#x7684;&#x4EE3;&#x7801;&#x6BB5;(&#x4E0D;&#x8BBA;&#x662F;&#x629B;&#x51FA;&#x9519;&#x8BEF;&#x79BB;&#x5F00;&#x8FD8;&#x662F;<code>return</code>&#x6216;&#x662F;<code>break</code>&#x8BED;&#x53E5;)&#x3002;<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x6587;&#x4EF6;&#x5904;&#x7406;</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">processFile</span><span class="params">(fileName:String)</span></span> <span class="keyword">throws</span> {</span><br><span class="line">	<span class="comment">// &#x5224;&#x65AD;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x5B58;&#x5728;&#xFF0C;&#x5B58;&#x5728;&#x624D;&#x505A;&#x5177;&#x4F53;&#x64CD;&#x4F5C;</span></span><br><span class="line">	<span class="keyword">if</span> exists(fileName) {</span><br><span class="line">		<span class="comment">// &#x6253;&#x5F00;&#x6587;&#x4EF6;</span></span><br><span class="line">		<span class="keyword">let</span> file = open(fileName)</span><br><span class="line">		<span class="keyword">defer</span> { <span class="comment">// &#x8FD9;&#x5C31;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x5728;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5728;&#x9000;&#x51FA;&#x540E;&#x88AB;&#x5173;&#x95ED;</span></span><br><span class="line">			close(file)</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">while</span> <span class="keyword">let</span> line <span class="keyword">try</span> file.readline() {</span><br><span class="line">			<span class="comment">// &#x5BF9;&#x5E94;&#x5904;&#x7406;&#x6587;&#x4EF6;</span></span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// &#x5904;&#x7406;&#x5B8C;&#x6210;&#xFF0C;&#x5C06;&#x5173;&#x95ED;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;</span></span><br><span class="line">		close(file)</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>&#x6CE8;&#x610F;: &#x5373;&#x662F;&#x6CA1;&#x6709;&#x6D89;&#x53CA;&#x5230;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x4EE3;&#x7801;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>defer</code>&#x8BED;&#x53E5;&#x3002;</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title=""></a><br></h2><h1 id="&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;"><a href="#&#x6CE8;&#xFF1A;xcode7-3&#x73AF;&#x5883;" class="headerlink" title="&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;"></a>&#x6CE8;&#xFF1A;xcode7.3&#x73AF;&#x5883;</h1>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/10/15-Swift可空链式调用/" rel="next" title="15-Swift可空链式调用">
+                <i class="fa fa-chevron-left"></i> 15-Swift可空链式调用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/11/16-Swift错误处理/"
+           data-title="16-Swift错误处理" data-url="http://jarvan3.com/2016/07/11/16-Swift错误处理/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/head.png"
+               alt="EndEvent" />
+          <p class="site-author-name" itemprop="name">EndEvent</p>
+          <p class="site-description motion-element" itemprop="description">hello Swift .</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、表示并抛出错误"><span class="nav-number">1.</span> <span class="nav-text">一、表示并抛出错误</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、错误处理"><span class="nav-number">2.</span> <span class="nav-text">二、错误处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、指定清理操作"><span class="nav-number">3.</span> <span class="nav-text">三、指定清理操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">3.1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注：xcode7-3环境"><span class="nav-number">4.</span> <span class="nav-text">注：xcode7.3环境</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EndEvent</span>
+</div>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"jarvan3"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("fenbO1sqMAMWYKT6mNoOTxY9-gzGzoHsz", "wkDESGajreyO0DhN4x94mKfI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
