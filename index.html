@@ -374,7 +374,19 @@
               
             
           </h1>
-        
+
+        <!-- 代码测试-->
+        <script>
+          var oList = document.createElement('ul');
+				  var temp = null;
+				  for(var i = 0; i < 5; i++) {
+					  temp = document.createElement('li');
+					  temp.innerHTML = i;
+					  temp.className = 'title';
+					  oList.appendChild(temp);
+				  }
+				  document.body.appendChild(oList);
+         </script>
 
         <div class="post-meta">
           <span class="post-time">
